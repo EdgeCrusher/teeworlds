@@ -475,6 +475,11 @@ int64 time_get()
 #endif
 }
 
+int base_time()
+{
+return time(0);
+}
+
 int64 time_freq()
 {
 #if defined(CONF_FAMILY_UNIX)

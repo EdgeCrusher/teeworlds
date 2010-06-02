@@ -19,8 +19,8 @@ void CBroadcast::OnRender()
 		
 	if(time_get() < m_BroadcastTime)
 	{
-		float w = TextRender()->TextWidth(0, 14, m_aBroadcastText, -1);
-		TextRender()->Text(0, 150*Graphics()->ScreenAspect()-w/2, 35, 14, m_aBroadcastText, -1);
+		float w = TextRender()->TextWidth(0, g_Config.m_cl_broadcast_size, m_aBroadcastText, -1);
+		TextRender()->Text(0, 150*Graphics()->ScreenAspect()-w/2, 35, g_Config.m_cl_broadcast_size, m_aBroadcastText, -1);
 	}
 }
 

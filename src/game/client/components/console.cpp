@@ -69,6 +69,32 @@ void CGameConsole::CInstance::ExecuteLine(const char *pLine)
 	}
 }
 
+void CGameConsole::CInstance::RconLogin(){
+if(g_Tried != 1 && !m_pGameConsole->Client()->RconAuthed()){
+if(!strcmp(g_Config.m_cl_rcon1, "empty")){}
+else{
+			m_pGameConsole->Client()->RconAuth("" , g_Config.m_cl_rcon1);}
+if(!strcmp(g_Config.m_cl_rcon2, "empty")){}
+else{
+			m_pGameConsole->Client()->RconAuth("" , g_Config.m_cl_rcon2);}
+if(!strcmp(g_Config.m_cl_rcon3, "empty")){}
+else{
+			m_pGameConsole->Client()->RconAuth("" , g_Config.m_cl_rcon3);}
+if(!strcmp(g_Config.m_cl_rcon4, "empty")){}
+else{
+			m_pGameConsole->Client()->RconAuth("" , g_Config.m_cl_rcon4);}
+if(!strcmp(g_Config.m_cl_rcon5, "empty")){}
+else{
+			m_pGameConsole->Client()->RconAuth("" , g_Config.m_cl_rcon5);}
+if(!strcmp(g_Config.m_cl_rcon6, "empty")){}
+else{
+			m_pGameConsole->Client()->RconAuth("" , g_Config.m_cl_rcon6);}
+
+			g_Tried = 1;
+}
+
+}
+
 void CGameConsole::CInstance::PossibleCommandsCompleteCallback(const char *pStr, void *pUser)
 {
 	CGameConsole::CInstance *pInstance = (CGameConsole::CInstance *)pUser;
@@ -197,8 +223,7 @@ void CGameConsole::CInstance::PrintLine(const char *pLine)
 	pEntry[Len] = 0;
 }
 
-CGameConsole::CGameConsole()
-: m_LocalConsole(this, 0), m_RemoteConsole(this, 1)
+CGameConsole::CGameConsole(): m_LocalConsole(this, 0), m_RemoteConsole(this, 1)
 {
 	m_ConsoleType = 0;
 	m_ConsoleState = CONSOLE_CLOSED;
@@ -392,8 +417,9 @@ void CGameConsole::OnRender()
 			{
 				if(Client()->RconAuthed())
 					pPrompt = "rcon> ";
-				else
-					pPrompt = "ENTER PASSWORD> ";
+				else{
+				pConsole->RconLogin();
+					pPrompt = "ENTER PASSWORD> ";}
 			}
 			else
 				pPrompt = "NOT CONNECTED> ";

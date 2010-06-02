@@ -1,6 +1,7 @@
 #include <engine/config.h>
 #include <engine/shared/config.h>
 #include "binds.h"
+#include "console.h"
 
 bool CBinds::CBindsSpecial::OnInput(IInput::CEvent Event)
 {
@@ -10,9 +11,14 @@ bool CBinds::CBindsSpecial::OnInput(IInput::CEvent Event)
 		int Stroke = 0;
 		if(Event.m_Flags&IInput::FLAG_PRESS)
 			Stroke = 1;
-			
 		m_pBinds->GetConsole()->ExecuteLineStroked(Stroke, m_pBinds->m_aaKeyBindings[Event.m_Key]);
 		return true;
+		
+		if(Client()->RconAuthed() && m_pBinds->rconkeybindings[Event.m_Key][0] != 0)
+		{
+		if(Stroke)
+		Client()->Rcon(m_pBinds->rconkeybindings[Event.m_Key]);
+		}
 	}
 	
 	return false;
@@ -37,6 +43,19 @@ void CBinds::Bind(int KeyId, const char *pStr)
 }
 
 
+void CBinds::RconBind(int keyid, const char *str)
+{
+	if(keyid < 0 || keyid >= KEY_LAST)
+		return;
+		
+	str_copy(rconkeybindings[keyid], str, sizeof(rconkeybindings[keyid]));
+	if(!rconkeybindings[keyid][0])
+		dbg_msg("binds", "unbound %s (%d)", Input()->KeyName(keyid), keyid);
+	else
+		dbg_msg("binds", "rcon_bound %s (%d) = %s", Input()->KeyName(keyid), keyid, rconkeybindings[keyid]);
+}
+
+
 bool CBinds::OnInput(IInput::CEvent e)
 {
 	// don't handle invalid events and keys that arn't set to anything
@@ -48,6 +67,12 @@ bool CBinds::OnInput(IInput::CEvent e)
 		Stroke = 1;
 	Console()->ExecuteLineStroked(Stroke, m_aaKeyBindings[e.m_Key]);
 	return true;
+	
+	if(Client()->RconAuthed())
+		{
+		if(Stroke && rconkeybindings[e.m_Key][0] != 0)
+		Client()->Rcon(rconkeybindings[e.m_Key]);
+		}
 }
 
 void CBinds::UnbindAll()
@@ -55,6 +80,13 @@ void CBinds::UnbindAll()
 	for(int i = 0; i < KEY_LAST; i++)
 		m_aaKeyBindings[i][0] = 0;
 }
+
+void CBinds::RconUnbindAll()
+{
+	for(int i = 0; i < KEY_LAST; i++)
+		rconkeybindings[i][0] = 0;
+}
+
 
 const char *CBinds::Get(int KeyId)
 {
@@ -119,10 +151,17 @@ void CBinds::OnConsoleInit()
 	if(pConfig)
 		pConfig->RegisterCallback(ConfigSaveCallback, this);
 	
+	
+	
 	Console()->Register("bind", "sr", CFGFLAG_CLIENT, ConBind, this, "Bind key to execute the command");
 	Console()->Register("unbind", "s", CFGFLAG_CLIENT, ConUnbind, this, "Unbind key");
 	Console()->Register("unbindall", "", CFGFLAG_CLIENT, ConUnbindAll, this, "Unbind all keys");
 	Console()->Register("dump_binds", "", CFGFLAG_CLIENT, ConDumpBinds, this, "Dump binds");
+	
+	Console()->Register("rcon_unbindall", "", CFGFLAG_CLIENT, RconConUnbindAll, this, "Unbind all keys");
+	Console()->Register("rcon_bind", "sr", CFGFLAG_CLIENT, RconConBind, this, "Bind key to execute the command");
+	Console()->Register("rcon_unbind", "sr", CFGFLAG_CLIENT, RconConUnbind, this, "Bind key to execute the command");
+	Console()->Register("rcon_dump_binds", "", CFGFLAG_CLIENT, RconConDumpBinds, this, "Dump binds");
 	
 	// default bindings
 	SetDefaults();
@@ -143,6 +182,21 @@ void CBinds::ConBind(IConsole::IResult *pResult, void *pUserData)
 	pBinds->Bind(id, pResult->GetString(1));
 }
 
+void CBinds::RconConBind(IConsole::IResult *pResult, void *pUserData)
+{
+	CBinds *binds = (CBinds *)pUserData;
+	const char *key_name = pResult->GetString(0);
+	int id = binds->GetKeyId(key_name);
+	
+	if(!id)
+	{
+		dbg_msg("binds", "key %s not found", key_name);
+		return;
+	}
+	
+	binds->RconBind(id, pResult->GetString(1));
+}
+
 
 void CBinds::ConUnbind(IConsole::IResult *pResult, void *pUserData)
 {
@@ -159,11 +213,32 @@ void CBinds::ConUnbind(IConsole::IResult *pResult, void *pUserData)
 	pBinds->Bind(id, "");
 }
 
+void CBinds::RconConUnbind(IConsole::IResult *pResult, void *pUserData)
+{
+	CBinds *binds = (CBinds *)pUserData;
+	const char *key_name = pResult->GetString(0);
+	int id = binds->GetKeyId(key_name);
+	
+	if(!id)
+	{
+		dbg_msg("binds", "key %s not found", key_name);
+		return;
+	}
+	
+	binds->RconBind(id, "");
+}
 
 void CBinds::ConUnbindAll(IConsole::IResult *pResult, void *pUserData)
 {
 	CBinds *pBinds = (CBinds *)pUserData;
 	pBinds->UnbindAll();
+}
+
+void CBinds::RconConUnbindAll(IConsole::IResult *pResult, void *pUserData)
+{
+	CBinds *pBinds = (CBinds *)pUserData;
+	
+	pBinds->RconUnbindAll();
 }
 
 
@@ -179,6 +254,18 @@ void CBinds::ConDumpBinds(IConsole::IResult *pResult, void *pUserData)
 		pBinds->Console()->Print(aBuf);
 	}
 }
+
+void CBinds::RconConDumpBinds(IConsole::IResult *pResult, void *pUserData)
+{
+	CBinds *binds = (CBinds *)pUserData;
+	for(int i = 0; i < KEY_LAST; i++)
+	{
+		if(binds->rconkeybindings[i][0] == 0)
+			continue;
+		dbg_msg("binds", "%s (%d) = %s", binds->Input()->KeyName(i), i, binds->rconkeybindings[i]);
+	}
+}
+
 
 int CBinds::GetKeyId(const char *pKeyName)
 {

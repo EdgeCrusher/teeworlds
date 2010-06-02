@@ -333,7 +333,35 @@ void CGameClient::DispatchInput()
 
 int CGameClient::OnSnapInput(int *pData)
 {
-	return m_pControls->SnapInput(pData);
+	int val = m_pControls->SnapInput(pData);
+	if(val && m_Snap.m_Spectate)
+	{
+		
+		CNetObj_PlayerInput *inp;
+		
+		static bool last_fire = false, last_hook = false;
+
+		if(inp->m_Fire&1 && !last_fire)
+		{
+			find_next_spectable_cid();
+			last_fire = true;
+		}
+		else if(!(inp->m_Fire&1) && last_fire)
+			last_fire = false;
+
+		if(inp->m_Hook && !last_hook)
+		{
+			freeview = !freeview;
+			if(!freeview)
+				find_next_spectable_cid();
+			last_hook = true;
+		}
+		else if(!inp->m_Hook && last_hook)
+			last_hook = false;
+	}
+
+
+	return val;
 }
 
 void CGameClient::OnConnected()
@@ -386,6 +414,8 @@ void CGameClient::OnReset()
 
 void CGameClient::UpdateLocalCharacterPos()
 {
+
+
 	if(g_Config.m_ClPredict && Client()->State() != IClient::STATE_DEMOPLAYBACK)
 	{
 		if(!m_Snap.m_pLocalCharacter || (m_Snap.m_pLocalCharacter->m_Health < 0) || (m_Snap.m_pGameobj && m_Snap.m_pGameobj->m_GameOver))
@@ -401,6 +431,68 @@ void CGameClient::UpdateLocalCharacterPos()
 			vec2(m_Snap.m_pLocalPrevCharacter->m_X, m_Snap.m_pLocalPrevCharacter->m_Y),
 			vec2(m_Snap.m_pLocalCharacter->m_X, m_Snap.m_pLocalCharacter->m_Y), Client()->IntraGameTick());
 	}
+	if(g_Config.m_ClPredict && Client()->State() != IClient::STATE_DEMOPLAYBACK)
+	{
+		if(!m_Snap.m_pLocalCharacter || (m_Snap.m_pLocalCharacter->m_Health < 0) || (m_Snap.m_pGameobj && m_Snap.m_pGameobj->m_GameOver))
+		{
+			// don't use predicted
+		}
+		else
+			m_LocalCharacterPos = mix(m_PredictedPrevChar.m_Pos, m_PredictedChar.m_Pos, Client()->PredIntraGameTick());
+	}
+	else if(m_Snap.m_pLocalCharacter && m_Snap.m_pLocalPrevCharacter)
+	{
+		m_LocalCharacterPos = mix(
+			vec2(m_Snap.m_pLocalPrevCharacter->m_X, m_Snap.m_pLocalPrevCharacter->m_Y),
+			vec2(m_Snap.m_pLocalCharacter->m_X, m_Snap.m_pLocalCharacter->m_Y), Client()->IntraGameTick());
+	}
+	if(spectate_cid == -1)
+		freeview = true;
+	if(m_Snap.m_Spectate && !freeview)
+		{
+		if(!m_Snap.m_aCharacters[spectate_cid].m_Active || m_aClients[spectate_cid].m_Team == -1)
+		{	
+			freeview = true;
+			return;
+		}
+
+		
+		
+
+		/*	m_Snap.m_pLocalCharacter = &c->m_Cur;
+			m_Snap.m_pLocalPrevCharacter = &c->m_Prev;
+			m_LocalCharacterPos = vec2(m_Snap.m_pLocalCharacter->m_X, m_Snap.m_pLocalCharacter->m_Y);*/
+		
+		CSnapState::CCharacterInfo *c = &m_Snap.m_aCharacters[spectate_cid];
+		spectate_pos = mix(
+		vec2(c->m_Prev.m_X,c->m_Prev.m_Y),
+		vec2(c->m_Cur.m_X,c->m_Cur.m_Y),
+		Client()->IntraGameTick()
+		);
+
+		}
+	}
+
+
+void CGameClient::find_next_spectable_cid()
+{
+	int next = spectate_cid+1;
+	next %= MAX_CLIENTS;
+	int prev = next;
+	while(!m_Snap.m_aCharacters[next].m_Active || m_aClients[next].m_Team == -1)
+	{
+		next++;
+		next %= MAX_CLIENTS;
+		if(next == prev)
+		{
+			freeview = true;
+			spectate_cid = -1;
+			return;
+		}
+	}
+	spectate_cid = next;
+	if(freeview)
+		freeview = false;
 }
 
 

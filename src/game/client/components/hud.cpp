@@ -15,6 +15,8 @@
 #include "voting.h"
 #include "binds.h"
 
+#include <game/client/teecomp.h>
+
 CHud::CHud()
 {
 	// won't work if zero
@@ -76,10 +78,22 @@ void CHud::RenderScoreHud()
 			Graphics()->BlendNormal();
 			Graphics()->TextureSet(-1);
 			Graphics()->QuadsBegin();
-			if(t == 0)
-				Graphics()->SetColor(1,0,0,0.25f);
+			
+			if(!g_Config.m_tc_hud_match)
+			{
+				if(t == 0)
+					Graphics()->SetColor(1,0,0,0.25f);
+				else
+					Graphics()->SetColor(0,0,1,0.25f);
+			}
 			else
-				Graphics()->SetColor(0,0,1,0.25f);
+			{
+				vec3 col = TeecompUtils::getTeamColor(t, m_pClient->m_Snap.m_pLocalInfo->m_Team,
+					g_Config.m_tc_colored_tees_team1, g_Config.m_tc_colored_tees_team2, g_Config.m_tc_colored_tees_method);
+				Graphics()->SetColor(col.r, col.g, col.b, 0.25f);
+			}
+			
+			
 			RenderTools()->DrawRoundRect(Whole-45, 300-40-15+t*20, 50, 18, 5.0f);
 			Graphics()->QuadsEnd();
 
@@ -95,11 +109,24 @@ void CHud::RenderScoreHud()
 					if(m_pClient->m_Snap.m_paFlags[t]->m_CarriedBy == -2 || (m_pClient->m_Snap.m_paFlags[t]->m_CarriedBy == -1 && ((Client()->GameTick()/10)&1)))
 					{
 						Graphics()->BlendNormal();
-						Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME].m_Id);
+						if(g_Config.m_tc_colored_flags)
+							Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME_GRAY].m_Id);
+						else
+							Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME].m_Id);
 						Graphics()->QuadsBegin();
 
 						if(t == 0) RenderTools()->SelectSprite(SPRITE_FLAG_RED);
 						else RenderTools()->SelectSprite(SPRITE_FLAG_BLUE);
+						
+						if(g_Config.m_tc_colored_flags)
+						{
+							vec3 col = TeecompUtils::getTeamColor(t,
+								m_pClient->m_Snap.m_pLocalInfo->m_Team,
+								g_Config.m_tc_colored_tees_team1,
+								g_Config.m_tc_colored_tees_team2,
+								g_Config.m_tc_colored_tees_method);
+							Graphics()->SetColor(col.r, col.g, col.b, 1.0f);
+						}
 						
 						float Size = 16;					
 						IGraphics::CQuadItem QuadItem(Whole-40+2, 300-40-15+t*20+1, Size/2, Size);
@@ -300,6 +327,67 @@ void CHud::RenderHealthAndAmmo()
 		Array[i++] = IGraphics::CQuadItem(x+h*12,y+12,10,10);
 	Graphics()->QuadsDrawTL(Array, i);
 	Graphics()->QuadsEnd();
+}
+
+void CHud::RenderSpeed()
+{
+
+	if(!g_Config.m_tc_speedmeter)
+		return;
+
+	// We calculate the speed instead of getting it from character.velocity cause it's buggy when
+	// walking in front of a wall or when using the ninja sword
+	static float speed;
+	static vec2 oldpos;
+	static const int SMOOTH_TABLE_SIZE = 16;
+	static const int ACCEL_THRESHOLD = 25;
+	static float smooth_table[SMOOTH_TABLE_SIZE];
+	static int smooth_index = 0;
+
+	smooth_table[smooth_index] = distance(m_pClient->m_LocalCharacterPos, oldpos)/Client()->FrameTime();
+	/*if(demorec_isplaying()) {
+		float mult = client_demoplayer_getinfo()->speed;
+		smooth_table[smooth_index] /= mult;
+	}*/
+	smooth_index = (smooth_index + 1) % SMOOTH_TABLE_SIZE;
+	oldpos = m_pClient->m_LocalCharacterPos;
+	speed = 0;
+	for(int i=0; i<SMOOTH_TABLE_SIZE; i++)
+		speed += smooth_table[i];
+	speed /= SMOOTH_TABLE_SIZE;
+
+	int t = (m_pClient->m_Snap.m_pGameobj->m_Flags & GAMEFLAG_TEAMS)? -1 : 1;
+	int last_index = smooth_index - 1;
+	if(last_index < 0)
+		last_index = SMOOTH_TABLE_SIZE - 1;
+
+	Graphics()->BlendNormal();;
+	Graphics()->TextureSet(-1);
+	Graphics()->QuadsBegin();
+	if(g_Config.m_tc_speedmeter_accel && speed - smooth_table[last_index] > ACCEL_THRESHOLD)
+		Graphics()->SetColor(0.6f, 0.1f, 0.1f, 0.25f);
+	else if(g_Config.m_tc_speedmeter_accel && speed - smooth_table[last_index] < -ACCEL_THRESHOLD)
+		Graphics()->SetColor(0.1f, 0.6f, 0.1f, 0.25f);
+	else
+		Graphics()->SetColor(0.1, 0.1, 0.1, 0.25);
+	RenderTools()->DrawRoundRect(m_Width-40, 245+t*20, 50, 18, 5.0f);
+	Graphics()->QuadsEnd();
+
+	char buf[16];
+	str_format(buf, sizeof(buf), "%.0f", speed);
+	TextRender()->Text(0, m_Width-5-TextRender()->TextWidth(0,12,buf,-1), 246+t*20, 12, buf, -1);
+}
+
+void CHud::RenderSpectate()
+{
+	if(m_pClient->freeview)
+		TextRender()->Text(0, 4*Graphics()->ScreenAspect(), 4, 8, "Freeview", -1);
+	else
+	{
+		char buf[96];
+		str_format(buf, sizeof(buf), "Following: %s", m_pClient->m_aClients[m_pClient->spectate_cid].m_aName);
+		TextRender()->Text(0, 4*Graphics()->ScreenAspect(), 4, 8, buf, -1);
+	}
 }
 
 void CHud::OnRender()

@@ -10,6 +10,7 @@ class CChat : public CComponent
 	enum 
 	{
 		MAX_LINES = 25,
+		MAX_HISTORY_LINES = 10,
 	};
 
 	struct CLine
@@ -25,6 +26,16 @@ class CChat : public CComponent
 	CLine m_aLines[MAX_LINES];
 	int m_CurrentLine;
 
+	struct HISTORY_LINE
+	{
+		char text[512];
+	};
+	
+	HISTORY_LINE history[MAX_HISTORY_LINES];
+	int history_count;
+	int curr_history_line;
+	
+	
 	// chat
 	enum
 	{

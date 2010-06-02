@@ -398,6 +398,8 @@ typedef long long int64;
 */
 int64 time_get();
 
+int base_time();
+
 /*
 	Function: time_freq
 		Returns the frequency of the high resolution timer.

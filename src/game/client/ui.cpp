@@ -57,7 +57,7 @@ CUIRect *CUI::Screen()
     float Aspect = Graphics()->ScreenAspect();
     float w, h;
 
-    h = 600;
+    h = g_Config.m_cl_menusize;
     w = Aspect*h;
 
     m_Screen.w = w;

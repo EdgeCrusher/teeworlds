@@ -20,6 +20,111 @@ MACRO_CONFIG_INT(InpGrab, inp_grab, 0, 0, 1, CFGFLAG_SAVE|CFGFLAG_CLIENT, "Use f
 
 MACRO_CONFIG_STR(BrFilterString, br_filter_string, 25, "", CFGFLAG_SAVE|CFGFLAG_CLIENT, "Server browser filtering string")
 
+MACRO_CONFIG_STR(cl_dyncam_key, cl_dyncam_key, 64, "e", CFGFLAG_SAVE|CFGFLAG_CLIENT, "DynCam switchbutton")
+
+/** EDGE MOD STUFF **/
+
+MACRO_CONFIG_INT(cl_warmup_size, cl_warmup_size, 24, 0, 100, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+
+MACRO_CONFIG_INT(cl_jointeam, cl_jointeam, -2, -2, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+
+MACRO_CONFIG_INT(cl_mouse_deadzone, cl_mouse_deadzone, 300, 0, 0, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_mouse_deadzone_dc_on, cl_mouse_deadzone_dc_on, 300, 0, 0, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_mouse_deadzone_dc_off, cl_mouse_deadzone_dc_off, 0, 0, 0, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_mouse_followfactor, cl_mouse_followfactor, 60, 0, 200, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_mouse_followfactor_dc_on, cl_mouse_followfactor_dc_on, 60, 0, 200, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_mouse_followfactor_dc_off, cl_mouse_followfactor_dc_off, 0, 0, 200, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_mouse_max_distance, cl_mouse_max_distance, 800, 0, 0, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_mouse_max_distance_dc_on, cl_mouse_max_distance_dc_on, 1000, 0, 0, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_mouse_max_distance_dc_off, cl_mouse_max_distance_dc_off, 400, 0, 0, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+
+
+MACRO_CONFIG_INT(cl_skinname, cl_skinname, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_connect_tries, cl_connect_tries, 16, -1, 10000, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+
+MACRO_CONFIG_INT(cl_broadcast_size, cl_broadcast_size, 14, 0, 100, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+
+MACRO_CONFIG_INT(timenudge, timenudge, 0, 0, 0, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_dc, cl_dc, 100, 0, 1000, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_dc_state, cl_dc_state, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_hud, cl_hud, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+
+MACRO_CONFIG_INT(cl_menusize, cl_menusize, 600, 0, 1000, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_chatsize, cl_chatsize, 7, 0, 500, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+
+/* TeeComp default Variables */
+
+MACRO_CONFIG_INT(tc_nameplate_shadow,tc_nameplate_shadow, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Enable name plate shadow")
+MACRO_CONFIG_INT(tc_nameplate_score,tc_nameplate_score, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Display score on name plates")
+MACRO_CONFIG_INT(tc_colored_nameplates,tc_colored_nameplates, 0, 0, 3, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Enable colored name plates")
+MACRO_CONFIG_INT(tc_colored_nameplates_team1,tc_colored_nameplates_team1, 16739179, 0, 16777215, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Red team/team mates name plate color")
+MACRO_CONFIG_INT(tc_colored_nameplates_team2,tc_colored_nameplates_team2, 7053311, 0, 16777215, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Blue team/enemies name plate color")
+
+MACRO_CONFIG_INT(tc_colored_tees_method,tc_colored_tees_method, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Enable enemy based skin colors")
+MACRO_CONFIG_INT(tc_dm_colors_team1,tc_dm_colors_team1, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Use DM colors for red team/team mates")
+MACRO_CONFIG_INT(tc_dm_colors_team2,tc_dm_colors_team2, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Use DM colors for blue team/enemies")
+MACRO_CONFIG_INT(tc_colored_tees_team1,tc_colored_tees_team1, 16739179, 0, 16777215, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Red team/team mates color")
+MACRO_CONFIG_INT(tc_colored_tees_team2,tc_colored_tees_team2, 7053311, 0, 16777215, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Blue team/enemies color")
+
+MACRO_CONFIG_INT(tc_forced_skins_method,tc_forced_skins_method, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Enable enemy based forced skins")
+MACRO_CONFIG_INT(tc_force_skin_team1,tc_force_skin_team1, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Force a skin for red team/your team/DM matchs")
+MACRO_CONFIG_INT(tc_force_skin_team2,tc_force_skin_team2, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Force a skin for blue team/opponents")
+MACRO_CONFIG_STR(tc_forced_skin1,tc_forced_skin1, 64, "default", CFGFLAG_CLIENT|CFGFLAG_SAVE, "Forced skin for red/mates/DM matchs")
+MACRO_CONFIG_STR(tc_forced_skin2,tc_forced_skin2, 64, "default", CFGFLAG_CLIENT|CFGFLAG_SAVE, "Forced skin for blue/opponents")
+
+MACRO_CONFIG_INT(tc_hud_match,tc_hud_match, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Make HUD match tees' colors")
+MACRO_CONFIG_INT(tc_speedmeter,tc_speedmeter, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Display speed meter")
+MACRO_CONFIG_INT(tc_speedmeter_accel,tc_speedmeter_accel, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Speed meter shows acceleration")
+
+MACRO_CONFIG_INT(tc_autodemo,tc_autodemo, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Enable auto demo recording")
+MACRO_CONFIG_INT(tc_autoscreen,tc_autoscreen, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Enable auto screenshot")
+
+MACRO_CONFIG_INT(tc_colored_flags,tc_colored_flags, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Make flags colors match tees colors")
+MACRO_CONFIG_INT(tc_hide_carrying,tc_hide_carrying, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Hide the flag if you're carrying it")
+
+MACRO_CONFIG_INT(tc_statboard_infos,tc_statboard_infos, 235, 1, 255, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Mask of infos to display on the global statboard")
+MACRO_CONFIG_INT(tc_stat_id,tc_stat_id, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Show player id in statboards")
+MACRO_CONFIG_INT(tc_disable_chat,tc_disable_chat, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Disable chat")
+MACRO_CONFIG_INT(tc_laser_color_inner,tc_laser_color_inner, 8355839, 0, 16777215, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Inner color of laser")
+MACRO_CONFIG_INT(tc_laser_color_outer,tc_laser_color_outer, 1250112, 0, 16777215, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Outer color of laser")
+
+
+
+/* HUD settings */
+
+MACRO_CONFIG_INT(debug_crap, debug_crap, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "Teecomp++ debugging messages")
+
+
+MACRO_CONFIG_INT(hud_cursor, hud_cursor, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_xtimesbutton, hud_xtimesbutton, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_hp_ammo, hud_hp_ammo, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_goals, hud_goals, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_voting, hud_voting, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_teambalance, hud_teambalance, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_killmsg, hud_killmsg, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_chat, hud_chat, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_newping, hud_newping, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+
+
+MACRO_CONFIG_INT(hud_speczoom, hud_speczoom, 1, 0, 100, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_test, hud_test, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+
+MACRO_CONFIG_INT(hud_show_own_nameplate, hud_show_own_nameplate, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+
+
+/** EDGE STUFF END **/
+
+
+MACRO_CONFIG_INT(cl_dyncam_switch, cl_dyncam_switch, 0, 0, 1, CFGFLAG_SAVE|CFGFLAG_CLIENT, "Mouse sensitivity")
+
+MACRO_CONFIG_STR(cl_rcon1, cl_rcon1, 64, "empty", CFGFLAG_SAVE|CFGFLAG_CLIENT, "Server browser filtering string")
+MACRO_CONFIG_STR(cl_rcon2, cl_rcon2, 64, "empty", CFGFLAG_SAVE|CFGFLAG_CLIENT, "Server browser filtering string")
+MACRO_CONFIG_STR(cl_rcon3, cl_rcon3, 64, "empty", CFGFLAG_SAVE|CFGFLAG_CLIENT, "Server browser filtering string")
+MACRO_CONFIG_STR(cl_rcon4, cl_rcon4, 64, "empty", CFGFLAG_SAVE|CFGFLAG_CLIENT, "Server browser filtering string")
+MACRO_CONFIG_STR(cl_rcon5, cl_rcon5, 64, "empty", CFGFLAG_SAVE|CFGFLAG_CLIENT, "Server browser filtering string")
+MACRO_CONFIG_STR(cl_rcon6, cl_rcon6, 64, "empty", CFGFLAG_SAVE|CFGFLAG_CLIENT, "Server browser filtering string")
+
+
 MACRO_CONFIG_INT(BrFilterFull, br_filter_full, 0, 0, 1, CFGFLAG_SAVE|CFGFLAG_CLIENT, "Filter out full server in browser")
 MACRO_CONFIG_INT(BrFilterEmpty, br_filter_empty, 0, 0, 1, CFGFLAG_SAVE|CFGFLAG_CLIENT, "Filter out empty server in browser")
 MACRO_CONFIG_INT(BrFilterPw, br_filter_pw, 0, 0, 1, CFGFLAG_SAVE|CFGFLAG_CLIENT, "Filter out password protected servers in browser")
@@ -57,6 +162,9 @@ MACRO_CONFIG_INT(GfxRefreshRate, gfx_refresh_rate, 0, 0, 0, CFGFLAG_SAVE|CFGFLAG
 MACRO_CONFIG_INT(GfxFinish, gfx_finish, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_CLIENT, "")
 
 MACRO_CONFIG_INT(InpMousesens, inp_mousesens, 100, 5, 100000, CFGFLAG_SAVE|CFGFLAG_CLIENT, "Mouse sensitivity")
+
+
+
 
 MACRO_CONFIG_STR(SvName, sv_name, 128, "unnamed server", CFGFLAG_SERVER, "Server name")
 MACRO_CONFIG_STR(SvBindaddr, sv_bindaddr, 128, "", CFGFLAG_SERVER, "Address to bind the server to")

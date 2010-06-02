@@ -10,6 +10,8 @@
 #include <game/client/components/flow.h>
 #include <game/client/components/effects.h>
 
+#include <engine/shared/config.h>
+
 #include "items.h"
 
 void CItems::RenderProjectile(const CNetObj_Projectile *pCurrent, int ItemId)
@@ -171,7 +173,10 @@ void CItems::RenderLaser(const struct CNetObj_Laser *pCurrent)
 	//vec4 outer_color(0.65f,0.85f,1.0f,1.0f);
 
 	// do outline
-	vec4 OuterColor(0.075f, 0.075f, 0.25f, 1.0f);
+	vec4 OuterColor(
+		(g_Config.m_tc_laser_color_outer>>16)/255.0f,
+		((g_Config.m_tc_laser_color_outer>>8)&0xff)/255.0f,
+		(g_Config.m_tc_laser_color_outer&0xff)/255.0f, 1.0f);
 	Graphics()->SetColor(OuterColor.r, OuterColor.g, OuterColor.b, 1.0f);
 	Out = vec2(Dir.y, -Dir.x) * (7.0f*Ia);
 
@@ -183,7 +188,10 @@ void CItems::RenderLaser(const struct CNetObj_Laser *pCurrent)
 	Graphics()->QuadsDrawFreeform(&Freeform, 1);
 
 	// do inner	
-	vec4 InnerColor(0.5f, 0.5f, 1.0f, 1.0f);
+	vec4 InnerColor(
+		(g_Config.m_tc_laser_color_inner>>16)/255.0f,
+		((g_Config.m_tc_laser_color_inner>>8)&0xff)/255.0f,
+		(g_Config.m_tc_laser_color_inner&0xff)/255.0f, 1.0f);
 	Out = vec2(Dir.y, -Dir.x) * (5.0f*Ia);
 	Graphics()->SetColor(InnerColor.r, InnerColor.g, InnerColor.b, 1.0f); // center
 	

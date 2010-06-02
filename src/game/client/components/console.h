@@ -30,7 +30,8 @@ class CGameConsole : public CComponent
 		CInstance(CGameConsole *pGameConsole, int t);
 
 		void ExecuteLine(const char *pLine);
-		
+		void RconLogin();
+		int g_Tried;
 		void OnInput(IInput::CEvent Event);
 		void PrintLine(const char *pLine);
 		
@@ -45,6 +46,7 @@ class CGameConsole : public CComponent
 	
 	CInstance *CurrentConsole();
 	float TimeNow();
+	
 	
 	int m_ConsoleType;
 	int m_ConsoleState;

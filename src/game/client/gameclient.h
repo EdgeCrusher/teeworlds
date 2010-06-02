@@ -46,6 +46,7 @@ class CGameClient : public IGameClient
 	void DispatchInput();
 	void ProcessEvents();
 	void UpdateLocalCharacterPos();
+	void find_next_spectable_cid();
 
 	int m_PredictedTick;
 	int m_LastNewPredictedTick;
@@ -154,6 +155,11 @@ public:
 		void UpdateRenderInfo();
 	};
 
+	bool freeview;
+	int spectate_cid;
+	vec2 spectate_pos;
+	int dead;
+	
 	CClientData m_aClients[MAX_CLIENTS];
 	
 	CRenderTools m_RenderTools;

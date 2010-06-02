@@ -18,8 +18,28 @@ void CCamera::OnRender()
 	m_Zoom = 1.0f;
 
 	// update camera center		
-	if(m_pClient->m_Snap.m_Spectate)
-		m_Center = m_pClient->m_pControls->m_MousePos;
+
+		
+	if(sizeof(g_Config.m_cl_dyncam_key) >= 0 && g_Config.m_cl_dyncam_switch){
+	if(!g_Config.m_cl_dc_state)
+	{
+				g_Config.m_cl_mouse_followfactor = g_Config.m_cl_mouse_followfactor_dc_off;
+				g_Config.m_cl_mouse_max_distance = g_Config.m_cl_mouse_max_distance_dc_off;
+				g_Config.m_cl_mouse_deadzone = g_Config.m_cl_mouse_deadzone_dc_off;
+	}
+	if(g_Config.m_cl_dc_state)
+	{
+				g_Config.m_cl_mouse_followfactor = g_Config.m_cl_mouse_followfactor_dc_on;
+				g_Config.m_cl_mouse_max_distance = g_Config.m_cl_mouse_max_distance_dc_on;
+				g_Config.m_cl_mouse_deadzone = g_Config.m_cl_mouse_deadzone_dc_on;
+	}}
+		
+	if(m_pClient->m_Snap.m_Spectate){
+		if(m_pClient->freeview)
+			m_Center = m_pClient->m_pControls->m_MousePos;
+		if(!m_pClient->freeview)
+			m_Center = m_pClient->spectate_pos;
+	}
 	else
 	{
 

@@ -3,7 +3,7 @@
 #include <engine/graphics.h>
 #include <engine/textrender.h>
 
-#include <game/generated/client_data.h>
+#include <game/generated/gs_data.hpp>
 #include <game/client/render.h>
 #include "ed_editor.h"
 

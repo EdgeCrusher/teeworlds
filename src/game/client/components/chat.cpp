@@ -79,20 +79,80 @@ void CChat::OnConsoleInit()
 
 bool CChat::OnInput(IInput::CEvent e)
 {
-	if(m_Mode == MODE_NONE)
+
+	
+	
+	
+	
+	
+		if(m_Mode == MODE_NONE)
+	{
+		curr_history_line = -1;
 		return false;
+	}
 
 	if(e.m_Flags&IInput::FLAG_PRESS && e.m_Key == KEY_ESCAPE)
 		m_Mode = MODE_NONE;
 	else if(e.m_Flags&IInput::FLAG_PRESS && (e.m_Key == KEY_RETURN || e.m_Key == KEY_KP_ENTER))
 	{
 		if(m_Input.GetString()[0])
+		{
 			Say(m_Mode == MODE_ALL ? 0 : 1, m_Input.GetString());
+			if (history_count == 0 || str_comp_nocase(m_Input.GetString(), history[history_count - 1].text) != 0)
+			{
+				if (history_count == MAX_HISTORY_LINES)
+				{
+					for (int i = 1; i < MAX_HISTORY_LINES; i++)
+						str_copy(history[i - 1].text, history[i].text, sizeof(history[0].text));
+					str_copy(history[history_count - 1].text, m_Input.GetString(), sizeof(history[0].text));
+				} else {
+					str_copy(history[history_count].text, m_Input.GetString(), sizeof(history[0].text));
+					history_count++;
+				}
+			}
+		}
 		m_Mode = MODE_NONE;
+	}
+	else if (e.m_Flags&IInput::FLAG_PRESS && e.m_Key == KEY_UP)
+	{
+		if (curr_history_line < 0) curr_history_line = history_count;
+		curr_history_line--;
+		//if (last_msg_index < 0) last_msg_index = last_msg_count;
+		if (curr_history_line < 0) curr_history_line = 0;
+		if (curr_history_line >= history_count || history_count == 0)
+			m_Input.Set("");
+		else
+		{
+			m_Input.Set(history[curr_history_line].text);
+		}
+	}
+	else if (e.m_Flags&IInput::FLAG_PRESS && e.m_Key == KEY_DOWN)
+	{
+		if (curr_history_line <= history_count)
+		{
+			curr_history_line++;
+			m_Input.Set(history[curr_history_line].text);
+		}
+		else
+		{
+			curr_history_line = -1;
+			m_Input.Set("");
+		}
+		/*curr_history_line = -1;
+		input.set("");*/
+
+		/*//last_msg_index = (last_msg_index + 1)%(last_msg_count + 1);
+		if (curr_history_line < history_count) curr_history_line = history_count;
+		if (curr_history_line >= history_count || history_count == 0)
+			input.set("");
+		else
+		{
+			input.set(history[curr_history_line].text);
+		}*/
 	}
 	else
 		m_Input.ProcessInput(e);
-	
+
 	return true;
 }
 

@@ -14,6 +14,8 @@ class CHud : public CComponent
 	void RenderTeambalanceWarning();
 	void RenderVoting();
 	void RenderHealthAndAmmo();
+	void RenderSpeed();
+	void RenderSpectate();
 	void RenderGameTimer();
 	void RenderSuddenDeath();
 	void RenderScoreHud();
