@@ -8,6 +8,7 @@
 #include <engine/shared/demorec.h>
 #include <engine/shared/config.h>
 
+#include <game/client/teecomp.h>
 
 #include <engine/demorec.h>
 
@@ -299,6 +300,90 @@ void CGameClient::OnInit()
 	dbg_msg("", "%f.2ms", ((End-Start)*1000)/(float)time_freq());
 	
 	m_ServerMode = SERVERMODE_PURE;
+
+		// Teecomp grayscale flags
+	Graphics()->UnloadTexture(g_pData->m_aImages[IMAGE_GAME_GRAY].m_Id); // Already loaded with full color, unload
+	g_pData->m_aImages[IMAGE_GAME_GRAY].m_Id = -1;
+
+	CImageInfo info;
+	if(!Graphics()->LoadPNG(&info, g_pData->m_aImages[IMAGE_GAME_GRAY].m_pFilename))
+		return;
+
+	unsigned char *d = (unsigned char *)info.m_pData;
+	int step = info.m_Format == CImageInfo::FORMAT_RGBA ? 4 : 3;
+
+	for(int i=0; i < info.m_Width*info.m_Height; i++)
+	{
+		int v = (d[i*step]+d[i*step+1]+d[i*step+2])/3;
+		d[i*step] = v;
+		d[i*step+1] = v;
+		d[i*step+2] = v;
+	}
+
+	int freq[256];
+	int org_weight;
+	int new_weight;
+	int flag_x = 384;
+	int flag_y = 256;
+	int flag_w = 128;
+	int flag_h = 256;
+	int pitch = info.m_Width*4;
+
+	for(int f=0; f<2; f++)
+	{
+		org_weight = 0;
+		new_weight = 192;
+		for(int i=0; i<256; i++)
+			freq[i] = 0;
+
+		// find most common frequence
+		for(int y=flag_y; y<flag_y+flag_h; y++)
+			for(int x=flag_x+flag_w*f; x<flag_x+flag_w*(1+f); x++)
+			{
+				if(d[y*pitch+x*4+3] > 128)
+					freq[d[y*pitch+x*4]]++;
+			}
+		
+		for(int i = 1; i < 256; i++)
+		{
+			if(freq[org_weight] < freq[i])
+				org_weight = i;
+		}
+
+		// reorder
+		int inv_org_weight = 255-org_weight;
+		int inv_new_weight = 255-new_weight;
+		for(int y=flag_y; y<flag_y+flag_h; y++)
+			for(int x=flag_x+flag_w*f; x<flag_x+flag_w*(1+f); x++)
+			{
+				int v = d[y*pitch+x*4];
+				if(v <= org_weight*1.25f) // modified for contrast
+					v = (int)(((v/(float)org_weight) * new_weight));
+				else
+					v = (int)(((v-org_weight)/(float)inv_org_weight)*inv_new_weight + new_weight);
+				d[y*pitch+x*4] = v;
+				d[y*pitch+x*4+1] = v;
+				d[y*pitch+x*4+2] = v;
+			}
+	}
+
+	g_pData->m_aImages[IMAGE_GAME_GRAY].m_Id = Graphics()->LoadTextureRaw(info.m_Width, info.m_Height, info.m_Format, info.m_pData, info.m_Format, 0);
+	mem_free(info.m_pData);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 void CGameClient::DispatchInput()
@@ -427,6 +512,7 @@ void CGameClient::OnReset()
 
 void CGameClient::UpdateLocalCharacterPos()
 {
+
 
 
 	if(g_Config.m_ClPredict && Client()->State() != IClient::STATE_DEMOPLAYBACK)
@@ -1026,12 +1112,31 @@ void CGameClient::CClientData::UpdateRenderInfo()
 	// force team colors
 	if(g_GameClient.m_Snap.m_pGameobj && g_GameClient.m_Snap.m_pGameobj->m_Flags&GAMEFLAG_TEAMS)
 	{
+		int local_team = g_GameClient.m_Snap.m_paPlayerInfos[g_GameClient.m_Snap.m_LocalCid]->m_Team;
 		const int TeamColors[2] = {65387, 10223467};
 		if(m_Team >= 0 || m_Team <= 1)
 		{
-			m_RenderInfo.m_Texture = g_GameClient.m_pSkins->Get(m_SkinId)->m_ColorTexture;
+			/*m_RenderInfo.m_Texture = g_GameClient.m_pSkins->Get(m_SkinId)->m_ColorTexture;
 			m_RenderInfo.m_ColorBody = g_GameClient.m_pSkins->GetColor(TeamColors[m_Team]);
-			m_RenderInfo.m_ColorFeet = g_GameClient.m_pSkins->GetColor(TeamColors[m_Team]);
+			m_RenderInfo.m_ColorFeet = g_GameClient.m_pSkins->GetColor(TeamColors[m_Team]);*/
+		
+			if(TeecompUtils::get_force_dm_colors(m_Team, local_team))
+			{
+				m_RenderInfo.m_Texture = g_GameClient.m_pSkins->Get(m_SkinId)->m_OrgTexture;
+				m_RenderInfo.m_ColorBody = vec4(1,1,1,1);
+				m_RenderInfo.m_ColorFeet= vec4(1,1,1,1);
+			}
+			else
+			{
+				m_RenderInfo.m_Texture = g_GameClient.m_pSkins->Get(m_SkinId)->m_ColorTexture;
+				vec3 col = TeecompUtils::getTeamColor(m_Team, local_team, g_Config.m_tc_colored_tees_team1,
+					g_Config.m_tc_colored_tees_team2, g_Config.m_tc_colored_tees_method);
+				m_RenderInfo.m_ColorBody = vec4(col.r, col.g, col.b, 1.0f);
+				m_RenderInfo.m_ColorFeet = vec4(col.r, col.g, col.b, 1.0f);
+			}
+		
+		
+		
 		}
 	}		
 }

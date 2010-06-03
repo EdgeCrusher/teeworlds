@@ -52,7 +52,7 @@ class CGameClient : public IGameClient
 	int m_LastNewPredictedTick;
 
 	int64 m_LastSendInfo;
-
+	
 	static void ConTeam(IConsole::IResult *pResult, void *pUserData);
 	static void ConKill(IConsole::IResult *pResult, void *pUserData);
 	

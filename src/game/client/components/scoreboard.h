@@ -11,6 +11,7 @@ class CScoreboard : public CComponent
 	static void ConKeyScoreboard(IConsole::IResult *pResult, void *pUserData);
 	
 	bool m_Active;
+	bool m_DoScreenShot;
 	
 public:
 	CScoreboard();

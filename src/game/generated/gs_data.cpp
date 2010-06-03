@@ -235,6 +235,7 @@ static SOUNDSET x9[] = {
 static IMAGE x14[] = {
 	/* x14[0] */ {  "null",  "",  -1, },
 	/* x14[1] */ {  "game",  "game.png",  -1, },
+	/* x14[1] */ {  "game_gray",  "game.png",  -1, },
 	/* x14[2] */ {  "particles",  "particles.png",  -1, },
 	/* x14[3] */ {  "cursor",  "gui_cursor.png",  -1, },
 	/* x14[4] */ {  "banner",  "gui_logo.png",  -1, },

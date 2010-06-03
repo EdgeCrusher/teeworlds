@@ -10,6 +10,7 @@
 #include <game/localization.h>
 #include "scoreboard.h"
 
+#include <game/client/teecomp.h>
 
 CScoreboard::CScoreboard()
 {
@@ -258,11 +259,21 @@ void CScoreboard::RenderScoreboard(float x, float y, float w, int Team, const ch
 			(m_pClient->m_Snap.m_paFlags[1] && m_pClient->m_Snap.m_paFlags[1]->m_CarriedBy == pInfo->m_ClientId))
 		{
 			Graphics()->BlendNormal();
+			if(g_Config.m_tc_colored_flags)
+			Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME_GRAY].m_Id);
+			else
 			Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME].m_Id);
 			Graphics()->QuadsBegin();
 
 			if(pInfo->m_Team == 0) RenderTools()->SelectSprite(SPRITE_FLAG_BLUE, SPRITE_FLAG_FLIP_X);
 			else RenderTools()->SelectSprite(SPRITE_FLAG_RED, SPRITE_FLAG_FLIP_X);
+			if(g_Config.m_tc_colored_flags)
+			{
+				vec3 col = TeecompUtils::getTeamColor(1-pInfo->m_Team, m_pClient->m_Snap.m_paPlayerInfos[m_pClient->m_Snap.m_LocalCid]->m_Team, 
+					g_Config.m_tc_colored_tees_team1, g_Config.m_tc_colored_tees_team2, g_Config.m_tc_colored_tees_method);
+				Graphics()->SetColor(col.r, col.g, col.b, 1.0f);
+			}
+			
 			
 			float size = 64.0f;
 			IGraphics::CQuadItem QuadItem(x+55, y-15, size/2, size);
@@ -295,8 +306,15 @@ void CScoreboard::OnRender()
 	}
 
 	// if we the game is over
-	if(m_pClient->m_Snap.m_pGameobj && m_pClient->m_Snap.m_pGameobj->m_GameOver)
+	if(m_pClient->m_Snap.m_pGameobj && m_pClient->m_Snap.m_pGameobj->m_GameOver){
 		DoScoreBoard = true;
+		if(m_DoScreenShot){
+		Graphics()->TakeScreenshot();
+		m_DoScreenShot = false;
+		}
+		}
+	if(m_pClient->m_Snap.m_pGameobj && !m_pClient->m_Snap.m_pGameobj->m_GameOver)
+		m_DoScreenShot = true;
 		
 	if(!DoScoreBoard)
 		return;

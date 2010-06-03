@@ -14,6 +14,8 @@
 
 #include "items.h"
 
+#include <game/client/teecomp.h>
+
 void CItems::RenderProjectile(const CNetObj_Projectile *pCurrent, int ItemId)
 {
 
@@ -121,13 +123,27 @@ void CItems::RenderPickup(const CNetObj_Pickup *pPrev, const CNetObj_Pickup *pCu
 
 void CItems::RenderFlag(const CNetObj_Flag *pPrev, const CNetObj_Flag *pCurrent)
 {
+	if(m_pClient->m_Snap.m_pLocalCharacter && pCurrent->m_CarriedBy == m_pClient->m_Snap.m_LocalCid && g_Config.m_tc_hide_carrying)
+		return;
+	
 	float Angle = 0.0f;
 	float Size = 42.0f;
 
 	Graphics()->BlendNormal();
+	if(g_Config.m_tc_colored_flags)
+	Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME_GRAY].m_Id);
+	else
 	Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME].m_Id);
 	Graphics()->QuadsBegin();
 
+	if(g_Config.m_tc_colored_flags && m_pClient->m_Snap.m_pLocalCharacter)
+	{
+		vec3 col = TeecompUtils::getTeamColor(pCurrent->m_Team,	m_pClient->m_Snap.m_paPlayerInfos[m_pClient->m_Snap.m_LocalCid]->m_Team,
+			g_Config.m_tc_colored_tees_team1, g_Config.m_tc_colored_tees_team2, g_Config.m_tc_colored_tees_method);
+		Graphics()->SetColor(col.r, col.g, col.b, 1.0f);
+	}
+	
+	
 	if(pCurrent->m_Team == 0) // red team
 		RenderTools()->SelectSprite(SPRITE_FLAG_RED);
 	else
@@ -142,7 +158,7 @@ void CItems::RenderFlag(const CNetObj_Flag *pPrev, const CNetObj_Flag *pCurrent)
 		Pos = vec2(pCurrent->m_X, pCurrent->m_Y);
 
 	// make sure to use predicted position if we are the carrier
-	if(m_pClient->m_Snap.m_pLocalInfo && pCurrent->m_CarriedBy == m_pClient->m_Snap.m_pLocalInfo->m_ClientId)
+	if(m_pClient->m_Snap.m_pLocalInfo && pCurrent->m_CarriedBy == m_pClient->m_Snap.m_LocalCid)
 		Pos = m_pClient->m_LocalCharacterPos;
 
 	IGraphics::CQuadItem QuadItem(Pos.x, Pos.y-Size*0.75f, Size, Size*2);

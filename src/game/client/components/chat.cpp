@@ -9,6 +9,8 @@
 
 #include <game/client/gameclient.h>
 
+#include <game/client/teecomp.h>
+
 #include <game/client/components/sounds.h>
 #include <game/localization.h>
 
@@ -292,9 +294,9 @@ void CChat::OnRender()
 		// reset the cursor
 		TextRender()->SetCursor(&Cursor, Begin, y, FontSize, TEXTFLAG_RENDER);
 		Cursor.m_LineWidth = 200.0f;
-
+vec3 tcolor;
 		// render name
-		TextRender()->TextColor(0.8f,0.8f,0.8f,1);
+		/*TextRender()->TextColor(0.8f,0.8f,0.8f,1);
 		if(m_aLines[r].m_ClientId == -1)
 			TextRender()->TextColor(1,1,0.5f,1); // system
 		else if(m_aLines[r].m_Team)
@@ -304,7 +306,40 @@ void CChat::OnRender()
 		else if(m_aLines[r].m_NameColor == 1)
 			TextRender()->TextColor(0.7f,0.7f,1.0f,1); // blue
 		else if(m_aLines[r].m_NameColor == -1)
+			TextRender()->TextColor(0.75f,0.5f,0.75f, 1); // spectator*/
+			
+			
+		TextRender()->TextColor(0.8f,0.8f,0.8f,1);
+		if(m_aLines[r].m_ClientId == -1)
+			TextRender()->TextColor(1,1,0.5f,1); // system
+		else if(m_aLines[r].m_Team)
+			TextRender()->TextColor(0.45f,0.9f,0.45f,1); // team message
+		else if(m_aLines[r].m_NameColor == 0)
+	{
+		if(!m_pClient->m_Snap.m_pLocalCharacter)
+			TextRender()->TextColor(1.0f,0.5f,0.5f,1); // red
+			else
+			{
+				tcolor = TeecompUtils::getTeamColor(0, m_pClient->m_Snap.m_paPlayerInfos[m_pClient->m_Snap.m_LocalCid]->m_Team, g_Config.m_tc_colored_tees_team1,
+						g_Config.m_tc_colored_tees_team2, g_Config.m_tc_colored_tees_method);
+				TextRender()->TextColor(tcolor.r, tcolor.g, tcolor.b, 1);
+			}
+	}
+		else if(m_aLines[r].m_NameColor == 1)
+		{
+			if(!m_pClient->m_Snap.m_pLocalCharacter)
+				TextRender()->TextColor(0.7f,0.7f,1.0f,1); // blue
+			else
+			{
+				tcolor = TeecompUtils::getTeamColor(1, m_pClient->m_Snap.m_paPlayerInfos[m_pClient->m_Snap.m_LocalCid]->m_Team, g_Config.m_tc_colored_tees_team1,
+						g_Config.m_tc_colored_tees_team2, g_Config.m_tc_colored_tees_method);
+				TextRender()->TextColor(tcolor.r, tcolor.g, tcolor.b, 1);
+			}	
+		}
+			
+		else if(m_aLines[r].m_NameColor == -1)
 			TextRender()->TextColor(0.75f,0.5f,0.75f, 1); // spectator
+
 			
 		// render name
 		TextRender()->TextEx(&Cursor, m_aLines[r].m_aName, -1);

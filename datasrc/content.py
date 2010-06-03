@@ -228,6 +228,7 @@ image_emoticons = Image("emoticons", "emoticons.png")
 
 container.images.Add(image_null)
 container.images.Add(image_game)
+container.images.Add(Image("game_gray", "game.png"))
 container.images.Add(image_particles)
 container.images.Add(Image("cursor", "gui_cursor.png"))
 container.images.Add(Image("banner", "gui_logo.png"))

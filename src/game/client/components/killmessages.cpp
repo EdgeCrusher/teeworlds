@@ -9,6 +9,8 @@
 #include <game/client/animstate.h>
 #include "killmessages.h"
 
+#include <game/client/teecomp.h>
+
 void CKillMessages::OnReset()
 {
 	m_KillmsgCurrent = 0;
@@ -71,11 +73,23 @@ if(g_Config.m_cl_hud && g_Config.m_hud_killmsg){                                
 			if(m_aKillmsgs[r].m_ModeSpecial&1)
 			{
 				Graphics()->BlendNormal();
+				if(g_Config.m_tc_colored_flags)
+				Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME_GRAY].m_Id);
+				else
 				Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME].m_Id);
 				Graphics()->QuadsBegin();
 
 				if(m_pClient->m_aClients[m_aKillmsgs[r].m_Victim].m_Team == 0) RenderTools()->SelectSprite(SPRITE_FLAG_BLUE);
 				else RenderTools()->SelectSprite(SPRITE_FLAG_RED);
+				if(g_Config.m_tc_colored_flags)
+					{
+						vec3 col = TeecompUtils::getTeamColor(1-m_pClient->m_aClients[m_aKillmsgs[r].m_Victim].m_Team,
+							m_pClient->m_aClients[m_pClient->m_Snap.m_LocalCid].m_Team,
+							g_Config.m_tc_colored_tees_team1, g_Config.m_tc_colored_tees_team2,
+							g_Config.m_tc_colored_tees_method);
+						Graphics()->SetColor(col.r, col.g, col.b, 1.0f);
+					}
+				
 				
 				float Size = 56.0f;
 				IGraphics::CQuadItem QuadItem(x, y-16, Size/2, Size);
