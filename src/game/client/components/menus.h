@@ -120,7 +120,7 @@ class CMenus : public CComponent
 	vec2 m_MousePos;
 	
 	// Mod variables
-	bool m_Connect;
+	
 	int m_CurTries;
 	int m_StartTime;
 	
@@ -216,7 +216,7 @@ public:
 	void RenderLoading(float Percent);
 
 	bool IsActive() const { return m_MenuActive; }
-
+	bool m_Connect;
 	virtual void OnInit();
 
 	virtual void OnStateChange(int NewState, int OldState);

@@ -955,47 +955,19 @@ int CMenus::Render()
 			DoEditBox(&g_Config.m_PlayerName, &TextBox, g_Config.m_PlayerName, sizeof(g_Config.m_PlayerName), 12.0f, &Offset);
 		}
 		else
-		{
-			CUIRect box, part;
-			box = Screen;
-			Part.VMargin(150.0f, &box);
-			Part.HMargin(150.0f, &box);
+		{	
+			CUIRect Label, TextBox, TryAgain, Abort;
 			
+			Box.HSplitBottom(20.f, &Box, &Part);
+			Box.HSplitBottom(24.f, &Box, &Part);
+			Part.VMargin(80.0f, &Part);
 			
+			Part.VSplitMid(&Abort, &TryAgain);
 			
-			
-			CUIRect yes, no, yesl;
-			
-			Box.HSplitBottom(20.f, &box, &part);
-			Box.HSplitBottom(24.f, &box, &part);
-			Part.VMargin(80.0f, &part);
-			
-			Part.VSplitMid(&no, &yes);
-			
-			Part.VMargin(20.0f, &yes);
-			Part.VMargin(20.0f, &no);
-			Part.VMargin(20.0f, &yesl);
-			
-			// loop button formatting
-			yesl = Screen;
-			
-			
-			Part.VMargin(100.0f, &yesl);
-			Part.HMargin(125.0f, &yesl);
-			Part.VMargin(100.0f, &yesl);
-			Part.VMargin(100.0f, &yesl);
-			Part.VMargin(100.0f, &yesl);
-			Part.HMargin(125.0f, &yesl);
-			
-			
-			Box.HSplitBottom(160.0f, &yesl, &part);
-			Part.VMargin(10.0f, &part);
-			Part.VMargin(10.0f, &part);
-			Part.VMargin(10.0f, &part);
-			Part.VMargin(10.0f, &part);
-
+			TryAgain.VMargin(20.0f, &TryAgain);
+			Abort.VMargin(20.0f, &Abort);
 			static int button_abort = 0;
-			if(DoButton_Menu(&button_abort, "Abort", 0, &no) || m_EscapePressed){
+			if(DoButton_Menu(&button_abort, "Abort", 0, &Abort) || m_EscapePressed){
 				Client()->Disconnect();
 				m_Popup = POPUP_NONE;
 				m_CurTries = g_Config.m_cl_connect_tries;
@@ -1003,7 +975,7 @@ int CMenus::Render()
 			}
 
 			static int l_TryAgain = 0;
-			if(DoButton_Menu(&l_TryAgain, "Try Again", 0, &yes) || m_EnterPressed){
+			if(DoButton_Menu(&l_TryAgain, "Try Again", 0, &TryAgain) || m_EnterPressed){
 				m_CurTries = 0;
 				m_Connect = true;
 				m_StartTime = base_time()+2;

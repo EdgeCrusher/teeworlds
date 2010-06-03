@@ -3,37 +3,35 @@ Don't learn for school                 				     DONE
 Warmup Message Size variable	      				     DONE
 Join team on connect feature   (cl_jointeam)			     DONE
 Dynamic Camera On/Off button with variables                          DONE
-Automatic Reconnection on full server // Redesign of Connecting	     
+Automatic Reconnection on full server // Redesign of Connecting	     DONE
 screen								     DONE
-Broadcast Message Size variable					     
+Broadcast Message Size variable					     DONE
 Menuscale changing variable (cl_menusize)			     DONE
-Chat font size variable (cl_chatsize)				     
+Chat font size variable (cl_chatsize)				     DONE
 Full Teecomp Port						     almost DONE
 RCon automatic login on connect feature				     DONE
 Chat history with arrow U/D (from Z-Client)			     DONE
-
 Full port of 0.5.1 Server modification				     PENDING
 HUD Tab in Teecomp Settings	                                     
 Teecomp Settings Tab						     
-
+---------------------------------------------------------------------------------
 /** HUD features **/
 Global HUD On / Off variable					     
-Ingame Cursor I/O						     
-HPAndAmmo Rendering I/O						     
-Goals Rendering I/O					             
-Vote Sequence I/O						     
-Teambalance Rendering I/O					     
-Killmessage Rendering I/O					     
+Ingame Cursor I/O						     DONE
+HPAndAmmo Rendering I/O						     DONE
+Goals Rendering I/O					             DONE
+Vote Sequence I/O						     DONE
+Teambalance Rendering I/O					     DONE
+Killmessage Rendering I/O					     DONE
 Chat I/O // TeeComp integrated, link to HUD Settings TAB	     
 Spectator Zoom variable						     
-Show own nameplate I/O						     
-
+Show own nameplate I/O						     DONE     
+---------------------------------------------------------------------------------
 /** Teecomp subfeatures **/
 Nameplate Shadow
 Nameplate Score
 Colored Nameplates
 Nameplates Colors
-
 Enemy based skin Colors
 DM colors for red team / team mates
 DM colors for blue team / enemies

@@ -29,6 +29,7 @@ void CHud::OnReset()
 
 void CHud::RenderGameTimer()
 {
+if(g_Config.m_cl_hud){                                                       /** HUD Part: Timer **/
 	float Half = 300.0f*Graphics()->ScreenAspect()/2.0f;
 	Graphics()->MapScreen(0, 0, 300.0f*Graphics()->ScreenAspect(), 300.0f);
 	
@@ -52,9 +53,11 @@ void CHud::RenderGameTimer()
 		TextRender()->Text(0, Half-w/2, 2, FontSize, Buf, -1);
 	}
 }
+}
 
 void CHud::RenderSuddenDeath()
 {
+if(g_Config.m_cl_hud){                                                       /** HUD Part: Sudden Death ( Timer ) **/
 	if(m_pClient->m_Snap.m_pGameobj->m_SuddenDeath)
 	{
 		float Half = 300.0f*Graphics()->ScreenAspect()/2.0f;
@@ -64,9 +67,11 @@ void CHud::RenderSuddenDeath()
 		TextRender()->Text(0, Half-w/2, 2, FontSize, pText, -1);
 	}
 }
+}
 
 void CHud::RenderScoreHud()
 {
+if(g_Config.m_cl_hud && g_Config.m_hud_goals){                                                       /** HUD Part: Goals **/
 	int GameFlags = m_pClient->m_Snap.m_pGameobj->m_Flags;
 	float Whole = 300*Graphics()->ScreenAspect();
 	
@@ -152,9 +157,11 @@ void CHud::RenderScoreHud()
 		}
 	}
 }
+}
 
 void CHud::RenderWarmupTimer()
 {
+if(g_Config.m_cl_hud){                                                       /** HUD Part: Warmup Timer **/
 	// render warmup timer
 	if(m_pClient->m_Snap.m_pGameobj->m_Warmup)
 	{
@@ -170,7 +177,7 @@ void CHud::RenderWarmupTimer()
 			str_format(Buf, sizeof(Buf), "%d", Seconds);
 		w = TextRender()->TextWidth(0, FontSize, Buf, -1);
 		TextRender()->Text(0, 150*Graphics()->ScreenAspect()+-w/2, 75, FontSize, Buf, -1);
-	}	
+	}}	
 }
 
 void CHud::MapscreenToGroup(float CenterX, float CenterY, CMapItemGroup *pGroup)
@@ -196,16 +203,18 @@ void CHud::RenderFps()
 
 void CHud::RenderConnectionWarning()
 {
+if(g_Config.m_cl_hud){                                                       /** HUD Part: Connection Problems warning **/
 	if(Client()->ConnectionProblems())
 	{
 		const char *pText = Localize("Connection Problems...");
 		float w = TextRender()->TextWidth(0, 24, pText, -1);
 		TextRender()->Text(0, 150*Graphics()->ScreenAspect()-w/2, 50, 24, pText, -1);
-	}
+	}}
 }
 
 void CHud::RenderTeambalanceWarning()
 {
+if(g_Config.m_cl_hud && g_Config.m_hud_teambalance){                          /** HUD Part: Teambalance Warning **/
 	// render prompt about team-balance
 	bool Flash = time_get()/(time_freq()/2)%2 == 0;
 	if (m_pClient->m_Snap.m_pGameobj && (m_pClient->m_Snap.m_pGameobj->m_Flags&GAMEFLAG_TEAMS) != 0)
@@ -223,10 +232,12 @@ void CHud::RenderTeambalanceWarning()
 		}
 	}
 }
+}
 
 
 void CHud::RenderVoting()
 {
+if(g_Config.m_cl_hud && g_Config.m_hud_voting){                                 /** HUD Part: Running Votes **/
 	if(!m_pClient->m_pVoting->IsVoting())
 		return;
 	
@@ -258,9 +269,11 @@ void CHud::RenderVoting()
 	str_format(Buf, sizeof(Buf), "Vote No - %s", pNoKey);
 	UI()->DoLabel(&Base, Buf, 6.0f, 1);
 }
+	}
 
 void CHud::RenderCursor()
 {
+if(g_Config.m_cl_hud && g_Config.m_hud_cursor){                                 /** HUD Part: Cursor **/
 	if(!m_pClient->m_Snap.m_pLocalCharacter)
 		return;
 		
@@ -274,9 +287,11 @@ void CHud::RenderCursor()
 	RenderTools()->DrawSprite(m_pClient->m_pControls->m_TargetPos.x, m_pClient->m_pControls->m_TargetPos.y, CursorSize);
 	Graphics()->QuadsEnd();
 }
+}
 
 void CHud::RenderHealthAndAmmo()
 {
+if(g_Config.m_cl_hud && g_Config.m_hud_hp_ammo){                                 /** HUD Part: HP and Ammo **/
 	//mapscreen_to_group(gacenter_x, center_y, layers_game_group());
 
 	float x = 5;
@@ -328,11 +343,13 @@ void CHud::RenderHealthAndAmmo()
 	Graphics()->QuadsDrawTL(Array, i);
 	Graphics()->QuadsEnd();
 }
+	}
 
 void CHud::RenderSpeed()
 {
+                  /** HUD Part: Teecomp Speedmeter **/
 
-	if(!g_Config.m_tc_speedmeter)
+	if(!g_Config.m_tc_speedmeter || !g_Config.m_cl_hud)
 		return;
 
 	// We calculate the speed instead of getting it from character.velocity cause it's buggy when
@@ -380,6 +397,7 @@ void CHud::RenderSpeed()
 
 void CHud::RenderSpectate()
 {
+if(g_Config.m_cl_hud){                                 /** HUD Part: Teecomp Spec View **/
 	if(m_pClient->freeview)
 		TextRender()->Text(0, 4*Graphics()->ScreenAspect(), 4, 8, "Freeview", -1);
 	else
@@ -389,6 +407,7 @@ void CHud::RenderSpectate()
 		TextRender()->Text(0, 4*Graphics()->ScreenAspect(), 4, 8, buf, -1);
 	}
 }
+	}
 
 void CHud::OnRender()
 {
@@ -413,5 +432,9 @@ void CHud::OnRender()
 		RenderConnectionWarning();
 	RenderTeambalanceWarning();
 	RenderVoting();
+	if(Spectate && !(m_pClient->m_Snap.m_pGameobj && m_pClient->m_Snap.m_pGameobj->m_GameOver))
+		RenderSpectate();
+	
 	RenderCursor();
+	
 }

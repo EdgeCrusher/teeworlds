@@ -369,6 +369,7 @@ int CGameClient::OnSnapInput(int *pData)
 
 void CGameClient::OnConnected()
 {
+	m_pMenus->m_Connect = false;
 	m_Layers.Init(Kernel());
 	m_Collision.Init(Layers());
 	if(g_Config.m_cl_jointeam != -2)
@@ -381,7 +382,7 @@ void CGameClient::OnConnected()
 	Console()->ExecuteLine("team 0");
 	}
 	RenderTools()->RenderTilemapGenerateSkip(Layers());
-
+	
 	for(int i = 0; i < m_All.m_Num; i++)
 	{
 		m_All.m_paComponents[i]->OnMapLoad();

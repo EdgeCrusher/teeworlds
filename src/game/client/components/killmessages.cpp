@@ -3,6 +3,8 @@
 #include <game/generated/protocol.h>
 #include <game/generated/client_data.h>
 
+#include <engine/shared/config.h>
+
 #include <game/client/gameclient.h>
 #include <game/client/animstate.h>
 #include "killmessages.h"
@@ -36,6 +38,7 @@ void CKillMessages::OnMessage(int MsgType, void *pRawMsg)
 
 void CKillMessages::OnRender()
 {
+if(g_Config.m_cl_hud && g_Config.m_hud_killmsg){                                 /** HUD Part: Killmessages **/
 	float Width = 400*3.0f*Graphics()->ScreenAspect();
 	float Height = 400*3.0f;
 
@@ -127,5 +130,5 @@ void CKillMessages::OnRender()
 		}
 
 		y += 44;
-	}
+	}}
 }

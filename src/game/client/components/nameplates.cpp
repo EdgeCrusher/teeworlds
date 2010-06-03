@@ -19,7 +19,7 @@ void CNamePlates::RenderNameplate(
 	vec2 Position = mix(vec2(pPrevChar->m_X, pPrevChar->m_Y), vec2(pPlayerChar->m_X, pPlayerChar->m_Y), IntraTick);
 	
 	// render name plate
-	if(!pPlayerInfo->m_Local)
+	if(!pPlayerInfo->m_Local || g_Config.m_hud_show_own_nameplate)
 	{
 		//TextRender()->TextColor
 		float a = 1;

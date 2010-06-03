@@ -274,7 +274,7 @@ void CChat::OnRender()
 			break;
 
 		float Begin = x;
-		float FontSize = 6.0f;
+		float FontSize = g_Config.m_cl_chatsize;
 		
 		// get the y offset
 		CTextCursor Cursor;
