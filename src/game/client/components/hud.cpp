@@ -110,7 +110,7 @@ void CHud::RenderScoreHud()
 					{
 						Graphics()->BlendNormal();
 						if(g_Config.m_tc_colored_flags)
-							Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME_GRAY].m_Id);
+							Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME].m_Id);
 						else
 							Graphics()->TextureSet(g_pData->m_aImages[IMAGE_GAME].m_Id);
 						Graphics()->QuadsBegin();

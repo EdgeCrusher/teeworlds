@@ -1,0 +1,16 @@
+***************
+*** 398,404 ****
+  */
+  int64 time_get();
+  
+- int base_time();
+  /*
+  	Function: time_freq
+  		Returns the frequency of the high resolution timer.
+--- 398,403 ----
+  */
+  int64 time_get();
+  
+  /*
+  	Function: time_freq
+  		Returns the frequency of the high resolution timer.

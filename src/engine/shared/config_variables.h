@@ -39,12 +39,10 @@ MACRO_CONFIG_INT(cl_mouse_max_distance_dc_on, cl_mouse_max_distance_dc_on, 1000,
 MACRO_CONFIG_INT(cl_mouse_max_distance_dc_off, cl_mouse_max_distance_dc_off, 400, 0, 0, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 
 
-MACRO_CONFIG_INT(cl_skinname, cl_skinname, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 MACRO_CONFIG_INT(cl_connect_tries, cl_connect_tries, 16, -1, 10000, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 
 MACRO_CONFIG_INT(cl_broadcast_size, cl_broadcast_size, 14, 0, 100, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 
-MACRO_CONFIG_INT(timenudge, timenudge, 0, 0, 0, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 MACRO_CONFIG_INT(cl_dc, cl_dc, 100, 0, 1000, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 MACRO_CONFIG_INT(cl_dc_state, cl_dc_state, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 MACRO_CONFIG_INT(cl_hud, cl_hud, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
@@ -96,23 +94,20 @@ MACRO_CONFIG_INT(debug_crap, debug_crap, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "
 
 
 MACRO_CONFIG_INT(hud_cursor, hud_cursor, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
-MACRO_CONFIG_INT(hud_xtimesbutton, hud_xtimesbutton, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_hp_ammo, hud_hp_ammo, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_goals, hud_goals, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_voting, hud_voting, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_teambalance, hud_teambalance, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_killmsg, hud_killmsg, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_chat, hud_chat, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
-MACRO_CONFIG_INT(hud_newping, hud_newping, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 
 
 MACRO_CONFIG_INT(hud_speczoom, hud_speczoom, 1, 0, 100, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
-MACRO_CONFIG_INT(hud_test, hud_test, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 
 MACRO_CONFIG_INT(hud_show_own_nameplate, hud_show_own_nameplate, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 
 
-/** EDGE STUFF END **/
+
 
 
 MACRO_CONFIG_INT(cl_dyncam_switch, cl_dyncam_switch, 0, 0, 1, CFGFLAG_SAVE|CFGFLAG_CLIENT, "Mouse sensitivity")
@@ -124,6 +119,7 @@ MACRO_CONFIG_STR(cl_rcon4, cl_rcon4, 64, "empty", CFGFLAG_SAVE|CFGFLAG_CLIENT, "
 MACRO_CONFIG_STR(cl_rcon5, cl_rcon5, 64, "empty", CFGFLAG_SAVE|CFGFLAG_CLIENT, "Server browser filtering string")
 MACRO_CONFIG_STR(cl_rcon6, cl_rcon6, 64, "empty", CFGFLAG_SAVE|CFGFLAG_CLIENT, "Server browser filtering string")
 
+/** EDGE STUFF END **/
 
 MACRO_CONFIG_INT(BrFilterFull, br_filter_full, 0, 0, 1, CFGFLAG_SAVE|CFGFLAG_CLIENT, "Filter out full server in browser")
 MACRO_CONFIG_INT(BrFilterEmpty, br_filter_empty, 0, 0, 1, CFGFLAG_SAVE|CFGFLAG_CLIENT, "Filter out empty server in browser")

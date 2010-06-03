@@ -26,6 +26,7 @@
 class CGraph
 {
 public:
+
 	enum
 	{
 		// restrictions: Must be power of two
@@ -73,6 +74,10 @@ public:
 
 class CClient : public IClient, public CDemoPlayer::IListner
 {
+
+public:
+	
+
 	// needed interfaces
 	IEditor *m_pEditor;
 	IEngineInput *m_pInput;
@@ -83,7 +88,7 @@ class CClient : public IClient, public CDemoPlayer::IListner
 	IConsole *m_pConsole;
 	IStorage *m_pStorage;
 	IEngineMasterServer *m_pMasterServer;
-
+	
 	enum
 	{
 		NUM_SNAPSHOT_TYPES=2,
@@ -100,7 +105,7 @@ class CClient : public IClient, public CDemoPlayer::IListner
 
 	unsigned m_SnapshotParts;
 	int64 m_LocalStartTime;
-
+	
 	int m_DebugFont;
 	float m_FrameTimeLow;
 	float m_FrameTimeHigh;
@@ -178,6 +183,9 @@ class CClient : public IClient, public CDemoPlayer::IListner
 		CHostLookup m_VersionServeraddr;
 	} m_VersionInfo;
 public:
+
+	
+
 	IEngineGraphics *Graphics() { return m_pGraphics; }
 	IEngineInput *Input() { return m_pInput; }
 	IEngineSound *Sound() { return m_pSound; }
@@ -190,6 +198,7 @@ public:
 	// ----- send functions -----
 	virtual int SendMsg(CMsgPacker *pMsg, int Flags);
 
+	
 	int SendMsgEx(CMsgPacker *pMsg, int Flags, bool System=true);
 	void SendInfo();
 	void SendEnterGame();
@@ -203,7 +212,7 @@ public:
 
 	void DirectInput(int *pInput, int Size);
 	void SendInput();
-
+	
 	// TODO: OPT: do this alot smarter!
 	virtual int *GetInput(int Tick);
 
@@ -215,6 +224,9 @@ public:
 
 	// called when the map is loaded and we should init for a new round
 	void OnEnterGame();
+	
+	
+
 	virtual void EnterGame();
 
 	virtual void Connect(const char *pAddress);
@@ -239,7 +251,9 @@ public:
 	void DebugRender();
 
 	virtual void Quit();
-
+	virtual void TeecompDemoStart();
+	
+	
 	virtual const char *ErrorString();
 
 	const char *LoadMap(const char *pName, const char *pFilename, unsigned WantedCrc);

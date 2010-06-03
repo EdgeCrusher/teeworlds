@@ -10,7 +10,9 @@ class IClient : public IInterface
 protected:
 	// quick access to state of the client
 	int m_State;
-
+	
+	
+	
 	// quick access to time variables
 	int m_PrevGameTick;
 	int m_CurGameTick;
@@ -24,7 +26,10 @@ protected:
 	float m_FrameTime;
 	
 	int m_GameTickSpeed;
+	
 public:
+	
+	
 
 	class CSnapItem
 	{
@@ -68,11 +73,13 @@ public:
 	// other time access
 	inline float FrameTime() const { return m_FrameTime; }
 	inline float LocalTime() const { return m_LocalTime; }
-	
 	// actions
 	virtual void Connect(const char *pAddress) = 0;
 	virtual void Disconnect() = 0;
 	virtual void Quit() = 0;
+	
+	virtual  void TeecompDemoStart() = 0;
+	
 	virtual const char *DemoPlayer_Play(const char *pFilename) = 0;
 
 	// networking

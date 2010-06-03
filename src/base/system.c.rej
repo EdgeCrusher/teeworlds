@@ -1,0 +1,20 @@
+***************
+*** 474,484 ****
+  #else
+  	#error not implemented
+  #endif
+- }
+- 
+- int base_time()
+- {
+- time(0);
+  }
+  
+  int64 time_freq()
+--- 473,478 ----
+  #else
+  	#error not implemented
+  #endif
+  }
+  
+  int64 time_freq()

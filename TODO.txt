@@ -1,0 +1,54 @@
+Waste time on code                    			             DONE
+Don't learn for school                 				     DONE
+Warmup Message Size variable	      				     
+Join team on connect feature          				     
+Dynamic Camera On/Off button with variables                          DONE
+Automatic Reconnection on full server // Redesign of Connecting
+screen								     
+Broadcast Message Size variable					     
+Menuscale changing variable (cl_menusize)			     DONE
+Chat font size variable (cl_chatsize)				     
+Full Teecomp Port						     almost DONE
+RCon automatic login on connect feature				     DONE
+Chat history with arrow U/D (from Z-Client)			     DONE
+
+Full port of 0.5.1 Server modification				     PENDING
+
+/** HUD features **/
+Global HUD On / Off variable					     
+Ingame Cursor I/O						     
+HPAndAmmo Rendering I/O						     
+Goals Rendering I/O					             
+Vote Sequence I/O						     
+Teambalance Rendering I/O					     
+Killmessage Rendering I/O					     
+Chat I/O // TeeComp integrated, link to HUD Settings TAB	     
+Spectator Zoom variable						     
+Show own nameplate I/O						     
+
+/** Teecomp subfeatures **/
+Nameplate Shadow
+Nameplate Score
+Colored Nameplates
+Nameplates Colors
+
+Enemy based skin Colors
+DM colors for red team / team mates
+DM colors for blue team / enemies
+Team Mates / Red Team color
+Enemies / Blue Team color
+Enemy based forced skins
+Force a skin for red team/your team/DM matchs
+		 blue team/ enemies
+HUD matching custom colors
+Follow enemy by pressing "fire"button on spectator 		      DONE
+Speedmeter
+	- Acceleration
+Automatic Demo Recording					      DONE
+Automatic End Game screenshot					      
+Custom Colored Flags
+Hide flag while carrying it					      
+Statboard						              PENDING
+Disable chat variable
+Laser Color customization					      Interface not done yet
+

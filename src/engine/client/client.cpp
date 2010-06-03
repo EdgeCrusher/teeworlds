@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <math.h>
 
+
 #include <base/system.h>
 #include <engine/shared/engine.h>
 
@@ -17,6 +18,11 @@
 #include <engine/shared/datafile.h>
 #include <engine/shared/ringbuffer.h>
 #include <engine/shared/protocol.h>
+
+
+#include <engine/demorec.h>
+
+#include <time.h>
 
 #include <engine/shared/demorec.h>
 
@@ -443,6 +449,8 @@ void CClient::SetState(int s)
 		GameClient()->OnStateChange(m_State, Old);
 }
 
+
+
 // called when the map is loaded and we should init for a new round
 void CClient::OnEnterGame()
 {
@@ -728,6 +736,20 @@ void CClient::Quit()
 	SetState(IClient::STATE_QUITING);
 }
 
+void CClient::TeecompDemoStart()
+ {
+	dbg_msg("Teecomp", "automatic demo recording started");
+ 	char Filename[512];
+ 	time_t rawtime;
+ 	struct tm *tmp;
+ 
+ 	time(&rawtime);
+ 	tmp = localtime(&rawtime);
+	
+ 	str_format(Filename, sizeof(Filename), "demos/%d-%02d-%d_%02d-%02d-%02d_%s.demo", tmp->tm_year + 1900, tmp->tm_mon + 1, tmp->tm_mday, tmp->tm_hour, tmp->tm_min, tmp->tm_sec, m_aCurrentMap);
+	m_DemoRecorder.Start(Storage(), Filename, m_pGameClient->NetVersion(), m_aCurrentMap, m_CurrentMapCrc, "client");
+}
+
 const char *CClient::ErrorString()
 {
 	return m_NetClient.ErrorString();
@@ -736,7 +758,7 @@ const char *CClient::ErrorString()
 void CClient::Render()
 {
 	if(g_Config.m_GfxClear)
-		Graphics()->Clear(1,1,0);
+		Graphics()->Clear(0,0,0);
 
 	GameClient()->OnRender();
 	DebugRender();

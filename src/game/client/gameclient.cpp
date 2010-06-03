@@ -8,6 +8,9 @@
 #include <engine/shared/demorec.h>
 #include <engine/shared/config.h>
 
+#include <engine/demorec.h>
+
+
 #include <game/generated/protocol.h>
 #include <game/generated/client_data.h>
 
@@ -643,6 +646,8 @@ void CGameClient::OnMessage(int MsgId, CUnpacker *pUnpacker)
 	}		
 }
 
+
+
 void CGameClient::OnStateChange(int NewState, int OldState)
 {
 	// reset everything when not already connected (to keep gathered stuff)
@@ -652,6 +657,9 @@ void CGameClient::OnStateChange(int NewState, int OldState)
 	// then change the state
 	for(int i = 0; i < m_All.m_Num; i++)
 		m_All.m_paComponents[i]->OnStateChange(NewState, OldState);
+
+	if(NewState == IClient::STATE_ONLINE && g_Config.m_tc_autodemo){
+ 		Client()->TeecompDemoStart();}
 }
 
 void CGameClient::OnShutdown() {}
