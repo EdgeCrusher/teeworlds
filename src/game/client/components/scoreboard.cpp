@@ -213,15 +213,36 @@ void CScoreboard::RenderScoreboard(float x, float y, float w, int Team, const ch
 		// make sure that we render the correct team
 
 		char aBuf[128];
+		if(!m_pClient->m_Snap.m_Spectate){
 		if(pInfo->m_Local)
 		{
-			// background so it's easy to find the local player
 			Graphics()->TextureSet(-1);
 			Graphics()->QuadsBegin();
 			Graphics()->SetColor(1,1,1,0.25f);
 			RenderTools()->DrawRoundRect(x, y, w-20, LineHeight*0.95f, 17.0f);
 			Graphics()->QuadsEnd();
+			// background so it's easy to find the local player
+			
+
+			
+			
+			
 		}
+		}
+		else{
+		if(pInfo->m_ClientId == m_pClient->spectate_cid && !m_pClient->freeview){
+		
+	
+			Graphics()->TextureSet(-1);
+			Graphics()->QuadsBegin();
+			Graphics()->SetColor(1,1,1,0.25f);
+			RenderTools()->DrawRoundRect(x, y, w-20, LineHeight*0.95f, 17.0f);
+			Graphics()->QuadsEnd();
+			}
+		
+		
+		}
+		
 
 		str_format(aBuf, sizeof(aBuf), "%4d", pInfo->m_Score);
 		TextRender()->Text(0, x+60-TextRender()->TextWidth(0, FontSize,aBuf,-1), y, FontSize, aBuf, -1);
