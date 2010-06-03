@@ -183,9 +183,14 @@ int CControls::SnapInput(int *pData)
 
 void CControls::OnRender()
 {
+	if(m_pClient->freeview){
 	// update target pos
 	if(m_pClient->m_Snap.m_pGameobj && !(m_pClient->m_Snap.m_pGameobj->m_Paused || m_pClient->m_Snap.m_Spectate))
-		m_TargetPos = m_pClient->m_LocalCharacterPos + m_MousePos;
+		m_TargetPos = m_pClient->m_LocalCharacterPos + m_MousePos;}
+		
+	if(m_pClient->m_Snap.m_Spectate && !m_pClient->freeview)
+	{
+	m_MousePos = m_pClient->spectate_pos;}
 }
 
 bool CControls::OnMouseMove(float x, float y)
@@ -204,12 +209,17 @@ bool CControls::OnMouseMove(float x, float y)
 
 	if(m_pClient->m_Snap.m_Spectate)
 	{
+		if(m_pClient->freeview){
 		if(m_MousePos.x < 200.0f) m_MousePos.x = 200.0f;
 		if(m_MousePos.y < 200.0f) m_MousePos.y = 200.0f;
 		if(m_MousePos.x > Collision()->GetWidth()*32-200.0f) m_MousePos.x = Collision()->GetWidth()*32-200.0f;
-		if(m_MousePos.y > Collision()->GetHeight()*32-200.0f) m_MousePos.y = Collision()->GetHeight()*32-200.0f;
+		if(m_MousePos.y > Collision()->GetHeight()*32-200.0f) m_MousePos.y = Collision()->GetHeight()*32-200.0f;}
+		else{
+		m_MousePos = m_pClient->spectate_pos;}
+		
 		
 		m_TargetPos = m_MousePos;
+		
 	}
 	else
 	{

@@ -19,7 +19,7 @@ static float gs_SpriteHScale;
 /*
 static void layershot_begin()
 {
-	if(!config.cl_layershot)
+	if(!g_Config.m_cl_layershot)
 		return;
 
 	Graphics()->Clear(0,0,0);
@@ -27,13 +27,13 @@ static void layershot_begin()
 
 static void layershot_end()
 {
-	if(!config.cl_layershot)
+	if(!g_Config.m_cl_layershot)
 		return;
 	
 	char buf[256];
-	str_format(buf, sizeof(buf), "screenshots/layers_%04d.png", config.cl_layershot);
+	str_format(buf, sizeof(buf), "screenshots/layers_%04d.png", g_Config.m_cl_layershot);
 	gfx_screenshot_direct(buf);
-	config.cl_layershot++;
+	g_Config.m_cl_layershot++;
 }*/
 
 void CRenderTools::SelectSprite(SPRITE *pSpr, int Flags, int sx, int sy)
@@ -285,6 +285,8 @@ void CRenderTools::MapscreenToWorld(float CenterX, float CenterY, float Parallax
 	float OffsetX, float OffsetY, float Aspect, float Zoom, float *pPoints)
 {
 	float Width, Height;
+	
+	if(!g_Config.m_spectate){
 	CalcScreenParams(1150*1000, 1500, 1050, Aspect, &Width, &Height);
 	CenterX *= ParallaxX;
 	CenterY *= ParallaxY;
@@ -293,7 +295,18 @@ void CRenderTools::MapscreenToWorld(float CenterX, float CenterY, float Parallax
 	pPoints[0] = OffsetX+CenterX-Width/2;
 	pPoints[1] = OffsetY+CenterY-Height/2;
 	pPoints[2] = OffsetX+CenterX+Width/2;
-	pPoints[3] = OffsetY+CenterY+Height/2;
+	pPoints[3] = OffsetY+CenterY+Height/2;}
+	
+	else{
+	CalcScreenParams((1150+(g_Config.m_hud_speczoom*10))*(1000+(g_Config.m_hud_speczoom*10)), (1500+(g_Config.m_hud_speczoom*10)), (1050+(g_Config.m_hud_speczoom*10)), Aspect, &Width, &Height);
+	CenterX *= ParallaxX;
+	CenterY *= ParallaxY;
+	Width *= Zoom;
+	Height *= Zoom;
+	pPoints[0] = OffsetX+CenterX-Width/2;
+	pPoints[1] = OffsetY+CenterY-Height/2;
+	pPoints[2] = OffsetX+CenterX+Width/2;
+	pPoints[3] = OffsetY+CenterY+Height/2;}
 }
 
 void CRenderTools::RenderTilemapGenerateSkip(class CLayers *pLayers)

@@ -56,9 +56,9 @@ public:
 	// rects
 	void DrawRoundRect(float x, float y, float w, float h, float r);
 	void DrawRoundRectExt(float x, float y, float w, float h, float r, int Corners);
-	
+	static bool spectate;
 	void DrawUIRect(const CUIRect *pRect, vec4 Color, int Corners, float Rounding);
-
+	
 	// larger rendering methods
 	void RenderTilemapGenerateSkip(class CLayers *pLayers);
 
@@ -75,5 +75,7 @@ public:
 		float OffsetX, float OffsetY, float Aspect, float Zoom, float *pPoints);	
 	
 };
+
+
 
 #endif

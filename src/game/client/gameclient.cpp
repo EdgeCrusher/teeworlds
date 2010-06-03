@@ -8,6 +8,7 @@
 #include <engine/shared/demorec.h>
 #include <engine/shared/config.h>
 
+
 #include <engine/demorec.h>
 
 
@@ -462,25 +463,25 @@ void CGameClient::UpdateLocalCharacterPos()
 		freeview = true;
 	if(m_Snap.m_Spectate && !freeview)
 		{
-		if(!m_Snap.m_aCharacters[spectate_cid].m_Active || m_aClients[spectate_cid].m_Team == -1)
-		{	
-			freeview = true;
-			return;
-		}
+			if(!m_Snap.m_aCharacters[spectate_cid].m_Active || m_aClients[spectate_cid].m_Team == -1)
+				{
+					freeview = true;
+					return;
+				}
 
 		
 		
 
-		/*	m_Snap.m_pLocalCharacter = &c->m_Cur;
+			/*	m_Snap.m_pLocalCharacter = &c->m_Cur;
 			m_Snap.m_pLocalPrevCharacter = &c->m_Prev;
 			m_LocalCharacterPos = vec2(m_Snap.m_pLocalCharacter->m_X, m_Snap.m_pLocalCharacter->m_Y);*/
 		
-		CSnapState::CCharacterInfo *c = &m_Snap.m_aCharacters[spectate_cid];
-		spectate_pos = mix(
-		vec2(c->m_Prev.m_X,c->m_Prev.m_Y),
-		vec2(c->m_Cur.m_X,c->m_Cur.m_Y),
-		Client()->IntraGameTick()
-		);
+			CSnapState::CCharacterInfo *c = &m_Snap.m_aCharacters[spectate_cid];
+				spectate_pos = mix(
+					vec2(c->m_Prev.m_X,c->m_Prev.m_Y),
+					vec2(c->m_Cur.m_X,c->m_Cur.m_Y),
+					Client()->IntraGameTick());
+		
 
 		}
 	}
@@ -1021,7 +1022,7 @@ void CGameClient::OnPredict()
 void CGameClient::CClientData::UpdateRenderInfo()
 {
 	m_RenderInfo = m_SkinInfo;
-
+	g_Config.m_spectate = g_GameClient.m_Snap.m_Spectate;
 	// force team colors
 	if(g_GameClient.m_Snap.m_pGameobj && g_GameClient.m_Snap.m_pGameobj->m_Flags&GAMEFLAG_TEAMS)
 	{
