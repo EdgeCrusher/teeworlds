@@ -12,10 +12,10 @@ Full Teecomp Port						     almost DONE
 RCon automatic login on connect feature				     DONE
 Chat history with arrow U/D (from Z-Client)			     DONE
 Full port of 0.5.1 Server modification				     PENDING
-HUD Tab in Teecomp Settings	                                     
-Teecomp Settings Tab						     
+HUD Tab in Teecomp Settings	                                     DONE
+Teecomp Settings Tab						     DONE
 ---------------------------------------------------------------------------------
-/** HUD features **/
+/** HUD features **/-------------------------------------------------------------
 Global HUD On / Off variable					     
 Ingame Cursor I/O						     DONE
 HPAndAmmo Rendering I/O						     DONE
@@ -23,32 +23,31 @@ Goals Rendering I/O					             DONE
 Vote Sequence I/O						     DONE
 Teambalance Rendering I/O					     DONE
 Killmessage Rendering I/O					     DONE
-Chat I/O // TeeComp integrated, link to HUD Settings TAB	     
-Spectator Zoom variable						     
+Chat I/O // TeeComp integrated, link to HUD Settings TAB	     DONE
+Spectator Zoom variable						     DONE
 Show own nameplate I/O						     DONE     
 ---------------------------------------------------------------------------------
-/** Teecomp subfeatures **/
-Nameplate Shadow
-Nameplate Score
-Colored Nameplates
-Nameplates Colors
-Enemy based skin Colors
-DM colors for red team / team mates
-DM colors for blue team / enemies
-Team Mates / Red Team color
-Enemies / Blue Team color
-Enemy based forced skins
-Force a skin for red team/your team/DM matchs
-		 blue team/ enemies
-HUD matching custom colors
+/** Teecomp subfeatures **/------------------------------------------------------
+Nameplate Shadow						     DONE
+Nameplate Score							     DONE
+Colored Nameplates						     DONE
+Enemy based skin Colors						      
+DM colors for red team / team mates				      
+DM colors for blue team / enemies				      
+Team Mates / Red Team color	                                      
+Enemies / Blue Team color					      
+Enemy based forced skins					      
+Force a skin for red team/your team/DM matchs			      
+		 blue team/ enemies 				      
+HUD matching custom colors					      
 Follow enemy by pressing "fire"button on spectator 		      DONE
-Speedmeter
-	- Acceleration
+Speedmeter							      DONE(?)
+	- Acceleration						      
 Automatic Demo Recording					      DONE
 Automatic End Game screenshot					      
-Custom Colored Flags
+Custom Colored Flags					              
 Hide flag while carrying it					      
 Statboard						              PENDING
-Disable chat variable
+Disable chat variable						      
 Laser Color customization					      Interface not done yet
 

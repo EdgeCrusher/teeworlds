@@ -186,7 +186,7 @@ void CMenus::RenderSettingsPlayer(CUIRect MainView)
 					Button.HSplitTop(4.0f, 0, &Button);
 
 					float k = ((PrevColor>>((2-s)*8))&0xff)  / 255.0f;
-					k = DoScrollbarH(&s_aColorSlider[i][s], &Button, k);
+					k = (int)DoScrollbarH(&s_aColorSlider[i][s], &Button, k);  //(int)(DoScrollbarH(&g_Config.m_SndVolume, &Button, g_Config.m_SndVolume/100.0f)*100.0f);
 					Color <<= 8;
 					Color += clamp((int)(k*255), 0, 255);
 					UI()->DoLabel(&Text, paLabels[s], 15.0f, -1);

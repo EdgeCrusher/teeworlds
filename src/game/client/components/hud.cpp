@@ -166,7 +166,7 @@ if(g_Config.m_cl_hud){                                                       /**
 	if(m_pClient->m_Snap.m_pGameobj->m_Warmup)
 	{
 		char Buf[256];
-		float FontSize = 20.0f;
+		float FontSize = g_Config.m_cl_warmup_size;
 		float w = TextRender()->TextWidth(0, FontSize, Localize("Warmup"), -1);
 		TextRender()->Text(0, 150*Graphics()->ScreenAspect()+-w/2, 50, g_Config.m_cl_warmup_size, Localize("Warmup"), -1);
 
@@ -434,7 +434,7 @@ void CHud::OnRender()
 	RenderVoting();
 	if(Spectate && !(m_pClient->m_Snap.m_pGameobj && m_pClient->m_Snap.m_pGameobj->m_GameOver))
 		RenderSpectate();
-	
+	RenderSpeed();
 	RenderCursor();
 	
 }

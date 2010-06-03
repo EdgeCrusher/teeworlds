@@ -183,14 +183,14 @@ int CControls::SnapInput(int *pData)
 
 void CControls::OnRender()
 {
-	if(m_pClient->freeview){
-	// update target pos
+	//if(!((gameclient.snap.gameobj && gameclient.snap.gameobj->paused) || gameclient.snap.spectate))
 	if(m_pClient->m_Snap.m_pGameobj && !(m_pClient->m_Snap.m_pGameobj->m_Paused || m_pClient->m_Snap.m_Spectate))
-		m_TargetPos = m_pClient->m_LocalCharacterPos + m_MousePos;}
-		
-	if(m_pClient->m_Snap.m_Spectate && !m_pClient->freeview)
-	{
-	m_MousePos = m_pClient->spectate_pos;}
+		m_TargetPos = m_pClient->m_LocalCharacterPos + m_MousePos;
+	if(m_pClient->m_Snap.m_Spectate && !m_pClient->freeview){
+		m_TargetPos = m_pClient->spectate_pos;
+		m_MousePos = m_pClient->spectate_pos;
+	}
+	
 }
 
 bool CControls::OnMouseMove(float x, float y)

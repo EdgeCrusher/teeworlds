@@ -8,6 +8,8 @@
 #include "nameplates.h"
 #include "controls.h"
 
+#include <game/client/teecomp.h>
+
 void CNamePlates::RenderNameplate(
 	const CNetObj_Character *pPrevChar,
 	const CNetObj_Character *pPlayerChar,
@@ -26,9 +28,40 @@ void CNamePlates::RenderNameplate(
 		if(g_Config.m_ClNameplatesAlways == 0)
 			a = clamp(1-powf(distance(m_pClient->m_pControls->m_TargetPos, Position)/200.0f,16.0f), 0.0f, 1.0f);
 			
-		const char *pName = m_pClient->m_aClients[pPlayerInfo->m_ClientId].m_aName;
+
+			
+			
+		char pName[256]; // = m_pClient->m_aClients[pPlayerInfo->m_ClientId].m_aName;
+		
+					if(!g_Config.m_tc_nameplate_score)
+			str_format(pName, 256, "%s", m_pClient->m_aClients[pPlayerInfo->m_ClientId].m_aName);
+		else
+			str_format(pName, 256, "%s (%d)", m_pClient->m_aClients[pPlayerInfo->m_ClientId].m_aName, pPlayerInfo->m_Score);
+			
 		float tw = TextRender()->TextWidth(0, 28.0f, pName, -1);
+		
+			if(g_Config.m_tc_nameplate_shadow)
+		{
+			TextRender()->TextColor(0,0,0,a);
+			TextRender()->Text(0, Position.x-tw/2.0f+2, Position.y-60+2, 28.0f, pName, -1);
+		}
+		bool is_teamplay;
+		is_teamplay = m_pClient->m_Snap.m_pGameobj->m_Flags&GAMEFLAG_TEAMS;
+		
+		if(g_Config.m_tc_colored_nameplates&1 && is_teamplay)
+		{
+			vec3 col = TeecompUtils::getTeamColor(
+				m_pClient->m_aClients[pPlayerInfo->m_ClientId].m_Team,
+				m_pClient->m_Snap.m_pLocalInfo->m_Team,
+				g_Config.m_tc_colored_nameplates_team1,
+				g_Config.m_tc_colored_nameplates_team2,
+				g_Config.m_tc_colored_nameplates&2);
+			TextRender()->TextColor(col.r, col.g, col.b, a);
+		}
+		else // FFA or no colored plates
 		TextRender()->TextColor(1,1,1,a);
+		
+		
 		TextRender()->Text(0, Position.x-tw/2.0f, Position.y-60, 28.0f, pName, -1);
 		
 		if(g_Config.m_Debug) // render client id when in debug aswell
