@@ -161,7 +161,7 @@ void CHud::RenderWarmupTimer()
 		char Buf[256];
 		float FontSize = 20.0f;
 		float w = TextRender()->TextWidth(0, FontSize, Localize("Warmup"), -1);
-		TextRender()->Text(0, 150*Graphics()->ScreenAspect()+-w/2, 50, FontSize, Localize("Warmup"), -1);
+		TextRender()->Text(0, 150*Graphics()->ScreenAspect()+-w/2, 50, g_Config.m_cl_warmup_size, Localize("Warmup"), -1);
 
 		int Seconds = m_pClient->m_Snap.m_pGameobj->m_Warmup/SERVER_TICK_SPEED;
 		if(Seconds < 5)

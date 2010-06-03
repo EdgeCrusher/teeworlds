@@ -956,7 +956,65 @@ int CMenus::Render()
 		}
 		else
 		{
-			Box.HSplitBottom(20.f, &Box, &Part);
+			CUIRect box, part;
+			box = Screen;
+			Part.VMargin(150.0f, &box);
+			Part.HMargin(150.0f, &box);
+			
+			
+			
+			
+			CUIRect yes, no, yesl;
+			
+			Box.HSplitBottom(20.f, &box, &part);
+			Box.HSplitBottom(24.f, &box, &part);
+			Part.VMargin(80.0f, &part);
+			
+			Part.VSplitMid(&no, &yes);
+			
+			Part.VMargin(20.0f, &yes);
+			Part.VMargin(20.0f, &no);
+			Part.VMargin(20.0f, &yesl);
+			
+			// loop button formatting
+			yesl = Screen;
+			
+			
+			Part.VMargin(100.0f, &yesl);
+			Part.HMargin(125.0f, &yesl);
+			Part.VMargin(100.0f, &yesl);
+			Part.VMargin(100.0f, &yesl);
+			Part.VMargin(100.0f, &yesl);
+			Part.HMargin(125.0f, &yesl);
+			
+			
+			Box.HSplitBottom(160.0f, &yesl, &part);
+			Part.VMargin(10.0f, &part);
+			Part.VMargin(10.0f, &part);
+			Part.VMargin(10.0f, &part);
+			Part.VMargin(10.0f, &part);
+
+			static int button_abort = 0;
+			if(DoButton_Menu(&button_abort, "Abort", 0, &no) || m_EscapePressed){
+				Client()->Disconnect();
+				m_Popup = POPUP_NONE;
+				m_CurTries = g_Config.m_cl_connect_tries;
+				m_Connect = false;
+			}
+
+			static int l_TryAgain = 0;
+			if(DoButton_Menu(&l_TryAgain, "Try Again", 0, &yes) || m_EnterPressed){
+				m_CurTries = 0;
+				m_Connect = true;
+				m_StartTime = base_time()+2;
+				}
+
+		
+		
+		
+		
+		
+		/*	Box.HSplitBottom(20.f, &Box, &Part);
 			Box.HSplitBottom(24.f, &Box, &Part);
 			Part.VMargin(120.0f, &Part);
 
@@ -966,7 +1024,7 @@ int CMenus::Render()
 				if(m_Popup == POPUP_CONNECTING)
 					Client()->Disconnect();
 				m_Popup = POPUP_NONE;
-			}
+			}*/
 		}
 	}
 	
@@ -1087,6 +1145,34 @@ void CMenus::OnRender()
 	Graphics()->QuadsDrawTL(60, 60, 5000, 5000);
 	Graphics()->QuadsEnd();
 	return;*/
+	
+	
+	if(m_CurTries < g_Config.m_cl_connect_tries && m_Connect && g_Config.m_cl_connect_tries != -1)
+        {
+                if(m_StartTime == base_time())
+                {
+                        Client()->Connect(g_Config.m_UiServerAddress);
+						m_CurTries++;
+						m_StartTime = base_time()+2;
+                }
+        }      /* finally :) */
+	if(g_Config.m_cl_connect_tries == -1 && m_Connect && m_CurTries == 0)
+        {
+                if(m_StartTime == base_time())
+                {
+                        Client()->Connect(g_Config.m_UiServerAddress);
+						
+						m_StartTime = base_time()+2;
+                }
+        } 
+
+
+
+
+
+	
+	
+	
 	
 	if(Client()->State() != IClient::STATE_ONLINE && Client()->State() != IClient::STATE_DEMOPLAYBACK)
 		SetActive(true);

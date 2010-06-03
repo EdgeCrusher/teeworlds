@@ -371,7 +371,15 @@ void CGameClient::OnConnected()
 {
 	m_Layers.Init(Kernel());
 	m_Collision.Init(Layers());
-	
+	if(g_Config.m_cl_jointeam != -2)
+	{
+	if(g_Config.m_cl_jointeam == -1)
+	Console()->ExecuteLine("team -1");
+	if(g_Config.m_cl_jointeam == 1)
+	Console()->ExecuteLine("team 1");
+	if(g_Config.m_cl_jointeam == 0)
+	Console()->ExecuteLine("team 0");
+	}
 	RenderTools()->RenderTilemapGenerateSkip(Layers());
 
 	for(int i = 0; i < m_All.m_Num; i++)

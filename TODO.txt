@@ -1,10 +1,10 @@
 Waste time on code                    			             DONE
 Don't learn for school                 				     DONE
-Warmup Message Size variable	      				     
-Join team on connect feature          				     
+Warmup Message Size variable	      				     DONE
+Join team on connect feature   (cl_jointeam)			     DONE
 Dynamic Camera On/Off button with variables                          DONE
-Automatic Reconnection on full server // Redesign of Connecting
-screen								     
+Automatic Reconnection on full server // Redesign of Connecting	     
+screen								     DONE
 Broadcast Message Size variable					     
 Menuscale changing variable (cl_menusize)			     DONE
 Chat font size variable (cl_chatsize)				     
@@ -13,6 +13,8 @@ RCon automatic login on connect feature				     DONE
 Chat history with arrow U/D (from Z-Client)			     DONE
 
 Full port of 0.5.1 Server modification				     PENDING
+HUD Tab in Teecomp Settings	                                     
+Teecomp Settings Tab						     
 
 /** HUD features **/
 Global HUD On / Off variable					     

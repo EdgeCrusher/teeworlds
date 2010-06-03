@@ -119,6 +119,11 @@ class CMenus : public CComponent
 	bool m_UseMouseButtons;
 	vec2 m_MousePos;
 	
+	// Mod variables
+	bool m_Connect;
+	int m_CurTries;
+	int m_StartTime;
+	
 	int64 m_LastInput;
 	
 	//
