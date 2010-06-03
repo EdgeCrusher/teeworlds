@@ -721,7 +721,8 @@ void CMenus::RenderSettings(CUIRect MainView)
 		Localize("Player"),
 		Localize("Controls"),
 		Localize("Graphics"),
-		Localize("Sound")};
+		Localize("Sound"),
+		Localize("Teecomp")};
 
 	int NumTabs = (int)(sizeof(aTabs)/sizeof(*aTabs));
 
@@ -745,7 +746,8 @@ void CMenus::RenderSettings(CUIRect MainView)
 		RenderSettingsGraphics(MainView);
 	else if(s_SettingsPage == 4)
 		RenderSettingsSound(MainView);
-
+	else if(s_SettingsPage == 5)
+		render_settings_teecomp(MainView);
 	if(m_NeedRestart)
 	{
 		CUIRect RestartWarning;

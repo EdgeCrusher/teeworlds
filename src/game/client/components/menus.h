@@ -8,6 +8,14 @@
 #include <game/client/ui.h>
 
 
+typedef struct 
+{
+	const char *name;
+	const char *command;
+	int keyid;
+} KEYINFO;
+
+
 // compnent to fetch keypresses, override all other input
 class CMenusKeyBinder : public CComponent
 {
@@ -86,6 +94,8 @@ class CMenus : public CComponent
 	//static void demolist_listdir_callback(const char *name, int is_dir, void *user);
 	//static void demolist_list_callback(const CUIRect *rect, int index, void *user);
 
+
+	
 	enum
 	{
 		POPUP_NONE=0,
@@ -202,6 +212,18 @@ class CMenus : public CComponent
 	void RenderSettingsGraphics(CUIRect MainView);
 	void RenderSettingsSound(CUIRect MainView);
 	void RenderSettings(CUIRect MainView);
+	
+	// found in menus_teecomp.cpp
+	void render_rgb_sliders(CUIRect* main_view, CUIRect* button, int &r, int &g, int &b, bool enabled);
+	void ui_do_keybinder(KEYINFO& key, CUIRect* r);
+	void render_settings_teecomp(CUIRect main_view);
+	void render_settings_teecomp_skins(CUIRect main_view);
+	void render_settings_teecomp_stats(CUIRect main_view);
+	void render_settings_teecomp_misc(CUIRect main_view);
+	void render_settings_teecomp_about(CUIRect main_view);
+	void render_settings_teecomp_hud(CUIRect main_view);
+	
+	
 	
 	void SetActive(bool Active);
 public:

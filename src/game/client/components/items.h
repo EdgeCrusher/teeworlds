@@ -7,10 +7,11 @@ class CItems : public CComponent
 	void RenderProjectile(const CNetObj_Projectile *pCurrent, int ItemId);
 	void RenderPickup(const CNetObj_Pickup *pPrev, const CNetObj_Pickup *pCurrent);
 	void RenderFlag(const CNetObj_Flag *pPrev, const CNetObj_Flag *pCurrent);
-	void RenderLaser(const struct CNetObj_Laser *pCurrent);
+	
 	
 public:
 	virtual void OnRender();
+	void RenderLaser(const struct CNetObj_Laser *pCurrent);
 };
 
 #endif

@@ -245,7 +245,7 @@ void CItems::OnRender()
 		}
 		else if(Item.m_Type == NETOBJTYPE_LASER)
 		{
-			RenderLaser((const CNetObj_Laser *)pData);
+			CItems::RenderLaser((const CNetObj_Laser *)pData);
 		}
 	}
 

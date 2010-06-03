@@ -100,6 +100,7 @@ MACRO_CONFIG_INT(hud_voting, hud_voting, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "
 MACRO_CONFIG_INT(hud_teambalance, hud_teambalance, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_killmsg, hud_killmsg, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_chat, hud_chat, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_newping, hud_chat, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 
 
 MACRO_CONFIG_INT(hud_speczoom, hud_speczoom, 1, 0, 100, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
