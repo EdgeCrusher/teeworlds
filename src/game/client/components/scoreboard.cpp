@@ -301,12 +301,12 @@ void CScoreboard::OnRender()
 	if(m_pClient->m_Snap.m_pLocalInfo && m_pClient->m_Snap.m_pLocalInfo->m_Team != -1)
 	{
 		// we are not a spectator, check if we are ead
-		if(!m_pClient->m_Snap.m_pLocalCharacter || m_pClient->m_Snap.m_pLocalCharacter->m_Health < 0)
+		if((!m_pClient->m_Snap.m_pLocalCharacter || m_pClient->m_Snap.m_pLocalCharacter->m_Health < 0) && !g_Config.m_cl_new_scoreboard)
 			DoScoreBoard = true;
 	}
 
 	// if we the game is over
-	if(m_pClient->m_Snap.m_pGameobj && m_pClient->m_Snap.m_pGameobj->m_GameOver){
+	if((m_pClient->m_Snap.m_pGameobj && m_pClient->m_Snap.m_pGameobj->m_GameOver) && !g_Config.m_cl_new_scoreboard){
 		DoScoreBoard = true;
 		if(m_DoScreenShot){
 		Graphics()->TakeScreenshot();

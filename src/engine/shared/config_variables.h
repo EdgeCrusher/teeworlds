@@ -44,6 +44,7 @@ MACRO_CONFIG_INT(cl_connect_tries, cl_connect_tries, 16, -1, 10000, CFGFLAG_CLIE
 MACRO_CONFIG_INT(cl_broadcast_size, cl_broadcast_size, 14, 0, 100, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 
 MACRO_CONFIG_INT(cl_dc, cl_dc, 100, 0, 1000, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
+MACRO_CONFIG_INT(cl_new_scoreboard, cl_new_scoreboard, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 MACRO_CONFIG_INT(cl_dc_state, cl_dc_state, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 MACRO_CONFIG_INT(cl_hud, cl_hud, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")
 MACRO_CONFIG_INT(spectate, spectate, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "")

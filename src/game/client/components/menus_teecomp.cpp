@@ -625,6 +625,10 @@ CUIRect label;
 	right_view.HSplitTop(20.0f, &button, &right_view);
 		if (DoButton_CheckBox(&g_Config.m_hud_show_own_nameplate, "Show own nameplate", g_Config.m_hud_show_own_nameplate, &button))
 			g_Config.m_hud_show_own_nameplate ^= 1;	
+			
+	right_view.HSplitTop(20.0f, &button, &right_view);
+		if (DoButton_CheckBox(&g_Config.m_cl_new_scoreboard, "New Scoreboard instead of default one", g_Config.m_cl_new_scoreboard, &button))
+			g_Config.m_cl_new_scoreboard ^= 1;
 		
 			
 			
