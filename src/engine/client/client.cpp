@@ -640,6 +640,8 @@ void CClient::SnapSetStaticsize(int ItemType, int Size)
 }
 
 
+
+
 void CClient::DebugRender()
 {
 	static NETSTATS Prev, Current;

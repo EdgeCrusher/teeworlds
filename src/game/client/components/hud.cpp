@@ -201,6 +201,8 @@ void CHud::RenderFps()
 	}
 }
 
+
+
 void CHud::RenderConnectionWarning()
 {
 if(g_Config.m_cl_hud){                                                       /** HUD Part: Connection Problems warning **/

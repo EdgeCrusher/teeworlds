@@ -73,6 +73,7 @@ public:
 	// other time access
 	inline float FrameTime() const { return m_FrameTime; }
 	inline float LocalTime() const { return m_LocalTime; }
+	inline int ReturnPing() const { return 22; };
 	// actions
 	virtual void Connect(const char *pAddress) = 0;
 	virtual void Disconnect() = 0;
@@ -117,7 +118,8 @@ public:
 	virtual void SnapSetStaticsize(int ItemType, int Size) = 0;
 
 	virtual int SendMsg(CMsgPacker *pMsg, int Flags) = 0;
-
+//	virtual int ReturnPing() = 0;
+	
 	template<class T>
 	int SendPackMsg(T *pMsg, int Flags)
 	{
@@ -143,6 +145,7 @@ protected:
 public:
 	virtual void OnConsoleInit() = 0;
 
+	
 	virtual void OnRconLine(const char *pLine) = 0;
 	virtual void OnInit() = 0;
 	virtual void OnNewSnapshot() = 0;

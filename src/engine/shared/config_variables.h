@@ -95,6 +95,7 @@ MACRO_CONFIG_INT(debug_crap, debug_crap, 0, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "
 
 
 MACRO_CONFIG_INT(hud_cursor, hud_cursor, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
+MACRO_CONFIG_INT(hud_showping, hud_showping, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_hp_ammo, hud_hp_ammo, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_goals, hud_goals, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")
 MACRO_CONFIG_INT(hud_voting, hud_voting, 1, 0, 1, CFGFLAG_CLIENT|CFGFLAG_SAVE, "HUD Settings part")

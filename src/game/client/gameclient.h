@@ -7,9 +7,12 @@
 #include <game/layers.h>
 #include <game/gamecore.h>
 #include "render.h"
-
 class CGameClient : public IGameClient
 {
+
+
+
+
 	class CStack
 	{
 	public:
@@ -24,6 +27,9 @@ class CGameClient : public IGameClient
 		class CComponent *m_paComponents[MAX_COMPONENTS];
 		int m_Num;
 	};
+	
+	
+	
 	
 	CStack m_All;
 	CStack m_Input;
@@ -59,6 +65,9 @@ class CGameClient : public IGameClient
 	static void ConchainSpecialInfoupdate(IConsole::IResult *pResult, void *pUserData, IConsole::FCommandCallback pfnCallback, void *pCallbackUserData);
 	
 public:
+	
+
+	
 	IKernel *Kernel() { return IInterface::Kernel(); }
 	class IGraphics *Graphics() const { return m_pGraphics; }
 	class IClient *Client() const { return m_pClient; }
@@ -123,7 +132,7 @@ public:
 			CNetObj_Character m_Cur;
 			
 			// interpolated position
-			vec2 m_Position;
+			//vec2 m_Position; not used(?)
 		};
 		
 		CCharacterInfo m_aCharacters[MAX_CLIENTS];
@@ -137,6 +146,21 @@ public:
 		int m_UseCustomColor;
 		int m_ColorBody;
 		int m_ColorFeet;
+		
+		// Teecomp++
+		int m_Deaths;
+		int m_JoinTime;
+		int m_FlagGrabs;
+		int m_FlagCaptures;
+		int m_CarriersKilled;
+		int m_KillsCarrying;
+		int m_DeathsFrom[NUM_WEAPONS];
+		int m_FragsWith[NUM_WEAPONS];
+		int m_DeathsCarrying;
+		int m_Frags;
+		int m_Suicides;
+		int m_Active;
+
 		
 		char m_aName[64];
 		char m_aSkinName[64];
@@ -154,11 +178,16 @@ public:
 		
 		void UpdateRenderInfo();
 	};
+	
+	
+	
 
 	bool freeview;
 	int spectate_cid;
 	vec2 spectate_pos;
-	int dead;
+	int start_time;
+	
+	
 	
 	CClientData m_aClients[MAX_CLIENTS];
 	

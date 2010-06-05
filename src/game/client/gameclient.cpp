@@ -44,9 +44,11 @@
 #include "components/players.h"
 #include "components/nameplates.h"
 #include "components/scoreboard.h"
+#include "components/statboard.h"
 #include "components/skins.h"
 #include "components/sounds.h"
 #include "components/voting.h"
+#include "components/teecomp_stats.h"
 
 CGameClient g_GameClient;
 
@@ -67,6 +69,8 @@ static CDebugHud gs_DebugHud;
 static CControls gs_Controls;
 static CEffects gs_Effects;
 static CScoreboard gs_Scoreboard;
+static CStatboard gs_Statboard;
+static CTeecompStats gs_TeecompStats;
 static CSounds gs_Sounds;
 static CEmoticon gs_Emoticon;
 static CDamageInd gsDamageInd;
@@ -172,6 +176,8 @@ void CGameClient::OnConsoleInit()
 	m_All.Add(&gs_Broadcast);
 	m_All.Add(&gs_DebugHud);
 	m_All.Add(&gs_Scoreboard);
+	m_All.Add(&gs_Statboard);
+	m_All.Add(&gs_TeecompStats);
 	m_All.Add(m_pMotd);
 	m_All.Add(m_pMenus);
 	m_All.Add(m_pGameConsole);
@@ -455,6 +461,9 @@ int CGameClient::OnSnapInput(int *pData)
 
 void CGameClient::OnConnected()
 {
+//	CStatboard().m_StartTime = base_time();
+	
+
 	m_pMenus->m_Connect = false;
 	m_Layers.Init(Kernel());
 	m_Collision.Init(Layers());
@@ -496,6 +505,22 @@ void CGameClient::OnReset()
 		m_aClients[i].m_aName[0] = 0;
 		m_aClients[i].m_SkinId = 0;
 		m_aClients[i].m_Team = 0;
+		// Teecomp++
+		m_aClients[i].m_JoinTime = base_time();
+		m_aClients[i].m_Deaths = 0;
+		m_aClients[i].m_Frags = 0;
+		m_aClients[i].m_Suicides = 0;
+		m_aClients[i].m_Active = true;
+		m_aClients[i].m_DeathsCarrying = 0;
+		for(int k=0; k<= NUM_WEAPONS; k++){
+		m_aClients[i].m_DeathsFrom[k] = 0;
+		m_aClients[i].m_FragsWith[k] = 0;}
+		m_aClients[i].m_FlagGrabs = 0;
+		m_aClients[i].m_FlagCaptures = 0;
+		m_aClients[i].m_CarriersKilled = 0;
+		m_aClients[i].m_KillsCarrying = 0;
+		
+		
 		m_aClients[i].m_Angle = 0;
 		m_aClients[i].m_Emoticon = 0;
 		m_aClients[i].m_EmoticonStart = -1;
@@ -1104,6 +1129,27 @@ void CGameClient::OnPredict()
 	
 	m_PredictedTick = Client()->PredGameTick();
 }
+
+/*void CGameClient::CLIENT_STATS::reset()
+{
+	join_date  = 0;
+	active     = false;
+	was_active = false;
+	frags      = 0;
+	deaths     = 0;
+	suicides   = 0;
+	for(int j=0; j<NUM_WEAPONS; j++)
+	{
+		frags_with[j]  = 0;
+		deaths_from[j] = 0;
+	}
+	flag_grabs      = 0;
+	flag_captures   = 0;
+	carriers_killed = 0;
+	kills_carrying  = 0;
+	deaths_carrying = 0;
+	join_time = base_time();
+}*/
 
 void CGameClient::CClientData::UpdateRenderInfo()
 {

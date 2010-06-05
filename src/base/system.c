@@ -477,7 +477,7 @@ int64 time_get()
 
 int base_time()
 {
-return time(0);
+return (int)time(0);
 }
 
 int64 time_freq()

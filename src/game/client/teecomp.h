@@ -2,7 +2,7 @@
 #define __TEECOMP_HPP_
 
 #include <base/vmath.h>
-
+;
 enum {
 	TC_STATS_FRAGS=1,
 	TC_STATS_DEATHS=2,
