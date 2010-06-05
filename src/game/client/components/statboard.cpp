@@ -282,7 +282,7 @@ void CStatboard::RenderScoreboard(float x, float y, float w, int Team, const cha
 			Graphics()->TextureSet(-1);
 			Graphics()->QuadsBegin();
 			Graphics()->SetColor(1,1,1,0.25f);
-			RenderTools()->DrawRoundRect(x, y, w-20, LineHeight*0.95f, 17.0f);
+			RenderTools()->DrawRoundRect(x, y, w+190, LineHeight*0.95f, 17.0f);
 			Graphics()->QuadsEnd();
 			}
 		
